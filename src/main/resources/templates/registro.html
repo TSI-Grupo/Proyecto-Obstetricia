@@ -28,8 +28,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" th:href="@{/}">Registro y
-					inicio de sesión</a>
+				<a class="navbar-brand" href="#" th:href="@{/}">Portal Obstetricia y Ginecología</a>
 			</div>
 		</div>
 	</nav>
@@ -54,25 +53,25 @@
 				<h1>Regístrate</h1>
 				<form th:action="@{/registro}" method="post" th:object="${usuario}">
 					<div class="form-group">
-						<label class="control-label" for="nombre">Nombre : </label> <input
+						<label class="control-label" for="nombre">Nombres : </label> <input
 							id="nombre" type="text" class="form-control" th:field="*{nombre}"
 							required autofocus="autofocus">
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="apellido">Apellido : </label> <input
+						<label class="control-label" for="apellido">Apellidos : </label> <input
 							id="apellido" class="form-control" th:field="*{apellido}"
 							required autofocus="autofocus">
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="email">Email : </label> <input
+						<label class="control-label" for="email">Correo Institucional : </label> <input
 							id="email" type="email" class="form-control" th:field="*{email}"
 							required autofocus="autofocus">
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="password">Password : </label> <input
+						<label class="control-label" for="password">Contraseña : </label> <input
 							type="password" id="password" class="form-control" th:field="*{password}"
 							required autofocus="autofocus">
 					</div>
@@ -81,14 +80,14 @@
 						<label class="control-label" for="tipoUsuario">Tipo de Usuario: </label>
 						<select id="tipoUsuario" class="form-control" th:field="*{tipoUsuario}" required>
 							<option value="">--Seleccione--</option>
-							<option value="interna">Interna</option>
+							<option value="interna">Especialista</option>
 							<option value="paciente">Paciente</option>
 						</select>
 					</div>
 
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Registrar</button>
-						<span>Si estas registrado <a th:href="@{/login}">inicia sesión aqui</a></span>
+						<span>Si estas registrad@ <a th:href="@{/login}">inicia sesión aqui</a></span>
 					</div>
 				</form>
 
