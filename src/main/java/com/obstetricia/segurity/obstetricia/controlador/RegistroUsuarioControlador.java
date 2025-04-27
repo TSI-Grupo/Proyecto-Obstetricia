@@ -3,6 +3,7 @@ package com.obstetricia.segurity.obstetricia.controlador;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.obstetricia.segurity.obstetricia.dto.UsuarioRegistroDTO;
 import com.obstetricia.segurity.obstetricia.servicio.UsuarioServicio;
@@ -32,10 +33,16 @@ public class RegistroUsuarioControlador {
     } 
 
     @PostMapping
-    public String registrarCuentaDeUsuario(@ModelAttribute ("usuario") UsuarioRegistroDTO registroDTO) {
+    public String registrarCuentaDeUsuario(@ModelAttribute ("usuario") UsuarioRegistroDTO registroDTO, RedirectAttributes redirectAttributes) {
       
-      usuarioServicio.save(registroDTO);
-      return "redirect:/registro?exito";
+      try {
+        usuarioServicio.save(registroDTO);
+        redirectAttributes.addAttribute("exito", true); // Si todo va bien
+        return "redirect:/registro";
+    } catch (RuntimeException e) {
+        redirectAttributes.addAttribute("error", true); // Si hay error (correo ya existe)
+        return "redirect:/registro";
+    }
     }
     
     

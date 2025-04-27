@@ -44,6 +44,12 @@
 					<div class="alert alert-info">Se ha registrado exitosamente a
 						la aplicación</div>
 				</div>
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">
+						El correo electrónico ya está registrado. Intenta con otro.
+					</div>
+				</div>
+				
 
 				<h1>Regístrate</h1>
 				<form th:action="@{/registro}" method="post" th:object="${usuario}">
@@ -69,6 +75,15 @@
 						<label class="control-label" for="password">Password : </label> <input
 							type="password" id="password" class="form-control" th:field="*{password}"
 							required autofocus="autofocus">
+					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="tipoUsuario">Tipo de Usuario: </label>
+						<select id="tipoUsuario" class="form-control" th:field="*{tipoUsuario}" required>
+							<option value="">--Seleccione--</option>
+							<option value="interna">Interna</option>
+							<option value="paciente">Paciente</option>
+						</select>
 					</div>
 
 					<div class="form-group">
