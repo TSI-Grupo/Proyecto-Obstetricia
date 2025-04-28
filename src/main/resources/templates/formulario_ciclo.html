@@ -31,17 +31,150 @@
 
         <div class="col-md-6">
             <label for="mocoVaginal" class="form-label">Moco Vaginal</label>
-            <input type="text" class="form-control" id="mocoVaginal" name="mocoVaginal">
+            <select class="form-select" id="mocoVaginal" name="mocoVaginal" required>
+                <option value="">Selecciona</option>
+                <option value="Escaso, espeso y blanquecino">Escaso, espeso y blanquecino</option>
+                <option value="Abundante, elástico y transparente">Abundante, elástico y transparente</option>
+            </select>
         </div>
 
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <label for="sintomas" class="form-label">Síntomas</label>
             <input type="text" class="form-control" id="sintomas" name="sintomas">
         </div>
+        -->
 
-        <div class="col-md-6">
+        <!--<div class="col-md-6">
             <label for="estadoAnimo" class="form-label">Estado de Ánimo</label>
             <input type="text" class="form-control" id="estadoAnimo" name="estadoAnimo">
+        </div>
+        -->
+
+        <div class="col-md-6">
+            <label class="form-label">Síntomas</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Calambres" id="sintomaCalambres">
+                <label class="form-check-label" for="sintomaCalambres">Calambres</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Hinchazón" id="sintomaHinchazon">
+                <label class="form-check-label" for="sintomaHinchazon">Hinchazón</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Manchado" id="sintomaManchado">
+                <label class="form-check-label" for="sintomaManchado">Manchado</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Fatiga" id="sintomaFatiga">
+                <label class="form-check-label" for="sintomaFatiga">Fatiga</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Dolor de espalda" id="sintomaDolorEspalda">
+                <label class="form-check-label" for="sintomaDolorEspalda">Dolor de espalda</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Dolor de cabeza" id="sintomaDolorCabeza">
+                <label class="form-check-label" for="sintomaDolorCabeza">Dolor de cabeza</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Gases" id="sintomaGases">
+                <label class="form-check-label" for="sintomaGases">Gases</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Escalofríos" id="sintomaEscalofrios">
+                <label class="form-check-label" for="sintomaEscalofrios">Escalofríos</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Aumento de peso" id="sintomaAumentoPeso">
+                <label class="form-check-label" for="sintomaAumentoPeso">Aumento de peso</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Fiebre héctica" id="sintomaFiebreHectica">
+                <label class="form-check-label" for="sintomaFiebreHectica">Fiebre héctica</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Sensibilidad en el pecho" id="sintomaSensibilidadPecho">
+                <label class="form-check-label" for="sintomaSensibilidadPecho">Sensibilidad en el pecho</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Sangrado" id="sintomaSangrado">
+                <label class="form-check-label" for="sintomaSangrado">Sangrado</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Cólicos" id="sintomaColicos">
+                <label class="form-check-label" for="sintomaColicos">Cólicos</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Aumento de la libido" id="sintomaAumentoLibido">
+                <label class="form-check-label" for="sintomaAumentoLibido">Aumento de la libido</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Disminución de la libido" id="sintomaDisminucionLibido">
+                <label class="form-check-label" for="sintomaDisminucionLibido">Disminución de la libido</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Libido neutra" id="sintomaLibidoNeutra">
+                <label class="form-check-label" for="sintomaLibidoNeutra">Libido neutra</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Otro" id="sintomaOtro">
+                <label class="form-check-label" for="sintomaOtro">Otro</label>
+            </div>
+            <div class="mt-2" id="otroSintomaField" style="display: none;">
+                <input type="text" class="form-control" id="otroSintomaInput" name="otroSintoma" placeholder="Especifica el síntoma">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Estado de Ánimo</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Feliz" id="estadoFeliz">
+                <label class="form-check-label" for="estadoFeliz">Feliz</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Normal" id="estadoNormal">
+                <label class="form-check-label" for="estadoNormal">Normal</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Triste" id="estadoTriste">
+                <label class="form-check-label" for="estadoTriste">Triste</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Entusiasmada" id="estadoEntusiasmada">
+                <label class="form-check-label" for="estadoEntusiasmada">Entusiasmada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Relajada" id="estadoRelajada">
+                <label class="form-check-label" for="estadoRelajada">Relajada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Ansiosa" id="estadoAnsiosa">
+                <label class="form-check-label" for="estadoAnsiosa">Ansiosa</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Indiferente" id="estadoIndiferente">
+                <label class="form-check-label" for="estadoIndiferente">Indiferente</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Cansada" id="estadoCansada">
+                <label class="form-check-label" for="estadoCansada">Cansada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Extraña" id="estadoExtrana">
+                <label class="form-check-label" for="estadoExtrana">Extraña</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Irritable" id="estadoIrritable">
+                <label class="form-check-label" for="estadoIrritable">Irritable</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Deprimida" id="estadoDeprimida">
+                <label class="form-check-label" for="estadoDeprimida">Deprimida</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Estresada" id="estadoEstresada">
+                <label class="form-check-label" for="estadoEstresada">Estresada</label>
+            </div>
         </div>
 
         <div class="col-12">
@@ -50,5 +183,31 @@
 
     </form>
 </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxOtro = document.getElementById('sintomaOtro');
+            var inputField = document.getElementById('otroSintomaField');
+            var inputOtro = document.getElementById('otroSintomaInput');
+            var form = document.querySelector('form');
+        
+            checkboxOtro.addEventListener('change', function () {
+                if (this.checked) {
+                    inputField.style.display = 'block';
+                } else {
+                    inputField.style.display = 'none';
+                    inputOtro.value = '';
+                    this.value = 'Otro'; // Resetear valor por si acaso
+                }
+            });
+        
+            form.addEventListener('submit', function () {
+                if (checkboxOtro.checked && inputOtro.value.trim() !== '') {
+                    checkboxOtro.value = inputOtro.value.trim();
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
