@@ -77,15 +77,6 @@
 					</div>
 
 					<div class="form-group">
-						<label class="control-label" for="tipoUsuario">Tipo de Usuario: </label>
-						<select id="tipoUsuario" class="form-control" th:field="*{tipoUsuario}" required>
-							<option value="">--Seleccione--</option>
-							<option value="interna">Especialista</option>
-							<option value="paciente">Paciente</option>
-						</select>
-					</div>
-
-					<div class="form-group">
 						<button type="submit" class="btn btn-success">Registrar</button>
 						<span>Si estas registrad@ <a th:href="@{/login}">inicia sesión aqui</a></span>
 					</div>

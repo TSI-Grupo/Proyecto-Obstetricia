@@ -38,17 +38,18 @@
             </select>
         </div>
 
-        <!--<div class="col-md-6">
-            <label for="sintomas" class="form-label">Síntomas</label>
-            <input type="text" class="form-control" id="sintomas" name="sintomas">
+        <div class="mb-3">
+            <label for="usuario" class="form-label">Usuario:</label>
+            <input type="text" id="usuario" name="usuario" class="form-control" th:value="${usuario}" readonly>
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.id}">ID</td>
+                <td th:text="${usuario.nombre}">ID</td>
+                <td th:text="${usuario.apellido}">ID</td>
+                <td th:text="${usuario.email}">ID</td>
+                <td th:text="${usuario.tipoUsuario}">ID</td>
+            </tr>
         </div>
-        -->
-
-        <!--<div class="col-md-6">
-            <label for="estadoAnimo" class="form-label">Estado de Ánimo</label>
-            <input type="text" class="form-control" id="estadoAnimo" name="estadoAnimo">
-        </div>
-        -->
+        
 
         <div class="col-md-6">
             <label class="form-label">Síntomas</label>

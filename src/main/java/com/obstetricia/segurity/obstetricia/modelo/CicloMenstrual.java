@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
@@ -16,15 +18,27 @@ public class CicloMenstrual {
 
     private LocalDate primerDiaPeriodo;
 
-    private Integer duracionCiclo; // En días
+    private Integer duracionCiclo; 
 
-    private String flujo; // Ej: ligero, moderado, abundante
+    private String flujo; 
 
-    private String mocoVaginal; // Opcional: descripción o tipos
+    private String mocoVaginal; 
 
-    private String sintomas; // Ej: dolor, cansancio, etc.
+    private String sintomas; 
 
-    private String estadoAnimo; // Ej: feliz, irritable, triste
+    private String estadoAnimo;
+    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id") // FK a Usuario
+    private Usuario usuario;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
     public Long getId() {
         return id;
