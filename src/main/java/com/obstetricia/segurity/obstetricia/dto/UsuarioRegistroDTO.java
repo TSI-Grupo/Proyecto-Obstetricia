@@ -6,15 +6,9 @@ public class UsuarioRegistroDTO {
     private String apellido;
     private String email;
     private String password;
-    private String tipoUsuario;
 
-    public String getTipoUsuario() {
-        return tipoUsuario;
-    }
 
-    public void setTipoUsuario(String tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
-    }
+
 
     public Long getId() {
         return id;
@@ -56,21 +50,21 @@ public class UsuarioRegistroDTO {
         this.password = password;
     }
 
-    public UsuarioRegistroDTO(Long id, String nombre, String apellido, String email, String password, String tipoUsuario) {
+    public UsuarioRegistroDTO(Long id, String nombre, String apellido, String email, String password) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
-        this.tipoUsuario = tipoUsuario;
+   
     }
 
-    public UsuarioRegistroDTO(String nombre, String apellido, String email, String password, String tipoUsuario) {
+    public UsuarioRegistroDTO(String nombre, String apellido, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
-        this.tipoUsuario = tipoUsuario;
+    
     }
 
     public UsuarioRegistroDTO(String email) {
