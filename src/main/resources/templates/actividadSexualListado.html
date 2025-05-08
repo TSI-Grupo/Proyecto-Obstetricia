@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Actividades Sexuales</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Listado de Actividades Sexuales</h2>
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Protección</th>
+                <th>Frecuencia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="actividad : ${actividadesSexuales}">
+                <td th:text="${actividad.paciente != null ? actividad.paciente.nombreCompleto : 'Sin paciente'}">Paciente</td>
+                <td th:text="${actividad.fecha}">Fecha</td>
+                <td th:text="${actividad.usoProteccion != null ? (actividad.usoProteccion ? 'Sí' : 'No') : 'Sin info'}">Protección</td>
+                <td th:text="${actividad.frecuencia}">Frecuencia</td>
+                <td>
+                    <a th:href="@{'/actividad-sexual/editar/' + ${actividad.id}}" class="btn btn-sm btn-warning">
+                        <span class="glyphicon glyphicon-pencil"></span> Editar
+                    </a>
+                    <a th:href="@{'/actividad-sexual/eliminar/' + ${actividad.id}}" class="btn btn-sm btn-danger" 
+                       onclick="return confirm('¿Estás seguro de eliminar esta actividad?');">
+                        <span class="glyphicon glyphicon-trash"></span> Eliminar
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="/actividad-sexual/validar-rut" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus"></span> Registrar Nueva Actividad
+        </a>
+    </div>
+</div>
+</body>
+</html>

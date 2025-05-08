@@ -14,6 +14,7 @@ import com.obstetricia.segurity.obstetricia.servicio.ActividadSexualServicio;
 import com.obstetricia.segurity.obstetricia.servicio.PacienteServicio;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -36,6 +37,12 @@ public class ActividadSexualControlador {
         model.addAttribute("rutPaciente", "");
         return "validarRutForm";
     }
+
+    @GetMapping("/listado")
+    public String mostrarListadoActividades(Model model) {
+    model.addAttribute("actividadesSexuales", actividadSexualService.obtenerTodas());
+    return "actividadSexualListado";
+}
 
     // Paso 2: Procesar RUT
     @PostMapping("/validar-rut")
@@ -63,6 +70,25 @@ public class ActividadSexualControlador {
         }
 
         return "actividadSexualResultado";
+    }
+
+        // NUEVO: Mostrar formulario de edición
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Optional<ActividadSexual> actividadOpt = actividadSexualService.obtenerPorId(id);
+        if (actividadOpt.isPresent()) {
+            model.addAttribute("actividadSexual", actividadOpt.get());
+            return "actividadSexualForm"; // reutiliza el mismo formulario
+        } else {
+            return "redirect:/actividad-sexual/listado";
+        }
+    }
+
+    // NUEVO: Eliminar actividad
+    @GetMapping("/eliminar/{id}")
+    public String eliminarActividad(@PathVariable Long id) {
+        actividadSexualService.eliminarPorId(id);
+        return "redirect:/actividad-sexual/listado";
     }
 }
 

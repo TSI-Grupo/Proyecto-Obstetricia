@@ -102,10 +102,11 @@ public class Paciente {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
-        public int getEdad() {
+
+    public int getEdad() {
         if (fechaNacimiento == null) {
             return 0; // o lanza una excepción o devuelve -1 según tu lógica
         }
-        return Period.between(fechaNacimiento, LocalDate.now()).getYears();
+    return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
 }

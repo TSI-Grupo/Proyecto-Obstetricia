@@ -1,6 +1,7 @@
 package com.obstetricia.segurity.obstetricia.modelo;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -61,4 +62,11 @@ public class ActividadSexual {
         this.frecuencia = frecuencia;
     }
 
+    public int getFechan() {
+    if (fecha == null) {
+        return 0; 
+        }
+    return Period.between(fecha, LocalDate.now()).getYears();
+    }
+    
 }
