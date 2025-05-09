@@ -68,7 +68,6 @@ public class ActividadSexualControlador {
         if (actividadSexual.getUsoProteccion() != null && !actividadSexual.getUsoProteccion()) {
             model.addAttribute("sugerencia", "Recuerda que el preservativo es el único método que protege de ITS.");
         }
-
         return "actividadSexualResultado";
     }
 
