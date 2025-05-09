@@ -10,8 +10,20 @@ import com.obstetricia.segurity.obstetricia.modelo.Usuario;
 
 public interface UsuarioServicio extends UserDetailsService{
 
+
     public Usuario save(UsuarioRegistroDTO registroDTO);
 
     public List<Usuario> listaUsuarios();
+
+    List<Usuario> obtenerTodosLosUsuarios();
+
+    Usuario obtenerUsuarioPorId(Long id);
+
+    void crearUsuario(Usuario usuario);
+
+    void actualizarUsuario(Usuario usuario);
+
+    void eliminarUsuario(Long id);
+
 
 }

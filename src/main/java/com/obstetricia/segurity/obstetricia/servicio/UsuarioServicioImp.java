@@ -20,7 +20,7 @@ import com.obstetricia.segurity.obstetricia.modelo.Usuario;
 import com.obstetricia.segurity.obstetricia.repositorio.UsuarioRepositorio;
 
 @Service
-public class UsuarioServicioImp implements UsuarioServicio{
+public class UsuarioServicioImp implements UsuarioServicio {
     
     private UsuarioRepositorio usuarioRepositorio;
 
@@ -36,8 +36,13 @@ public class UsuarioServicioImp implements UsuarioServicio{
         if (usuarioRepositorio.findByEmail(registroDTO.getEmail()) != null) {
             throw new RuntimeException("El correo ya está registrado");
         }
-        Usuario usuario = new Usuario(registroDTO.getNombre(),registroDTO.getApellido(),registroDTO.getEmail(),passwordEncoder.encode(registroDTO.getPassword()),
-                          Arrays.asList(new Rol("ROLE_USER")));
+        Usuario usuario = new Usuario(
+            registroDTO.getNombre(),
+            registroDTO.getApellido(),
+            registroDTO.getEmail(),
+            passwordEncoder.encode(registroDTO.getPassword()),
+            Arrays.asList(new Rol("ROLE_USER"))
+        );
         return usuarioRepositorio.save(usuario);
     }
 
@@ -49,12 +54,44 @@ public class UsuarioServicioImp implements UsuarioServicio{
         }
         return new User(usuario.getEmail(), usuario.getPassword(), mapearAutoridadesARoles(usuario.getRoles()));
     }
-    private Collection <? extends GrantedAuthority> mapearAutoridadesARoles(Collection <Rol> roles){
-         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNombre())).collect(Collectors.toList());
+
+    private Collection<? extends GrantedAuthority> mapearAutoridadesARoles(Collection<Rol> roles) {
+        return roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getNombre()))
+            .collect(Collectors.toList());
     }
-    
+
     @Override
     public List<Usuario> listaUsuarios() {
         return usuarioRepositorio.findAll();
+    }
+
+    // 🚀 MÉTODOS CRUD ADICIONALES
+
+    @Override
+    public List<Usuario> obtenerTodosLosUsuarios() {
+        return usuarioRepositorio.findAll();
+    }
+
+    @Override
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return usuarioRepositorio.findById(id).orElse(null);
+    }
+
+    @Override
+    public void crearUsuario(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuarioRepositorio.save(usuario);
+    }
+
+    @Override
+    public void actualizarUsuario(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuarioRepositorio.save(usuario);
+    }
+
+    @Override
+    public void eliminarUsuario(Long id) {
+        usuarioRepositorio.deleteById(id);
     }
 }
