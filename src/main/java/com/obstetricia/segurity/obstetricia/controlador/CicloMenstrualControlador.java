@@ -44,9 +44,11 @@ public class CicloMenstrualControlador {
 
         // Validar duración del ciclo vs días desde el primer día implementada
         if (ciclo.getDuracionCiclo() != null && ciclo.getPrimerDiaPeriodo() != null) {
-            long diasTranscurridos = ChronoUnit.DAYS.between(ciclo.getPrimerDiaPeriodo(), hoy);
-            if (diasTranscurridos > 0 && ciclo.getDuracionCiclo() > diasTranscurridos) {
-                result.rejectValue("duracionCiclo", "error.ciclo", "La duración no puede ser mayor que los días desde el primer día del período (" + diasTranscurridos + " días).");
+            long diasTranscurridos = ChronoUnit.DAYS.between(ciclo.getPrimerDiaPeriodo(), hoy) + 1;
+        
+            if (ciclo.getDuracionCiclo() < 1 || ciclo.getDuracionCiclo() > diasTranscurridos) {
+                result.rejectValue("duracionCiclo", "error.ciclo",
+                    "La duración debe estar entre 1 y " + diasTranscurridos + " días.");
             }
         }
 

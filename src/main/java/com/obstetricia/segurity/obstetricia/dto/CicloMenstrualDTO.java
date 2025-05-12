@@ -11,7 +11,7 @@ public class CicloMenstrualDTO {
     private String primerDiaPeriodo;
 
     @NotNull
-    @Min(value = 0, message = "La duración del ciclo debe ser mayor o igual a 0.")
+    @Min(value = 1, message = "La duración del ciclo debe ser mayor o igual a 1.")
     private Integer duracionCiclo;
 
     @NotNull

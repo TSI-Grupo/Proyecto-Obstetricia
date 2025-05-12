@@ -29,7 +29,7 @@ public class CicloMenstrual {
     }
 
     @NotNull
-    @Min(0)
+    @Min(1)
     private Integer duracionCiclo; 
 
     private String flujo; 
