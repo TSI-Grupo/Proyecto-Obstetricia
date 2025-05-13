@@ -4,21 +4,27 @@
     <title>Registrar Ciclo Menstrual</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body onload="actualizarRangosDuracion()">
 <div class="container mt-5">
     <h2>Registrar Ciclo Menstrual</h2>
-    <form th:action="@{/ciclos_menstruales/registrar}" method="post" class="row g-3">
+    <form th:action="@{/ciclos-menstruales/guardar}" th:object="${ciclo}" method="post" class="row g-3">
+        <input type="hidden" th:field="*{paciente.id}">
+        <input type="hidden" th:field="*{id}" />
 
         <div class="col-md-6">
             <label for="primerDiaPeriodo" class="form-label">Primer Día del Periodo</label>
-            <input type="date" class="form-control" id="primerDiaPeriodo" name="primerDiaPeriodo" required>
+            <input type="date" class="form-control" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="primerDiaPeriodo" name="primerDiaPeriodo" onchange="actualizarRangosDuracion()" required>
         </div>
 
         <div class="col-md-6">
             <label for="duracionCiclo" class="form-label">Duración del Ciclo (días)</label>
-            <input type="number" class="form-control" id="duracionCiclo" name="duracionCiclo" required>
+            <input type="number" class="form-control" id="duracionCiclo" name="duracionCiclo" min="1" required
+                   th:value="*{duracionCiclo}">
+            <div th:if="${#fields.hasErrors('duracionCiclo')}" class="text-danger">
+                <p th:errors="*{duracionCiclo}"></p>
+            </div>
         </div>
-
+        
         <div class="col-md-6">
             <label for="flujo" class="form-label">Flujo</label>
             <select class="form-select" id="flujo" name="flujo" required>
@@ -178,7 +184,9 @@
             var inputField = document.getElementById('otroSintomaField');
             var inputOtro = document.getElementById('otroSintomaInput');
             var form = document.querySelector('form');
-        
+            const fechaInput = document.getElementById('primerDiaPeriodo');
+            const duracionInput = document.getElementById('duracionCiclo');
+
             checkboxOtro.addEventListener('change', function () {
                 if (this.checked) {
                     inputField.style.display = 'block';
@@ -195,6 +203,38 @@
                 }
             });
         });
+
+        function actualizarRangosDuracion() {
+            const fechaInput = document.getElementById('primerDiaPeriodo');
+            const duracionInput = document.getElementById('duracionCiclo');
+
+            const fechaSeleccionada = new Date(fechaInput.value);
+            const hoy = new Date();
+
+            fechaSeleccionada.setHours(0, 0, 0, 0);
+            hoy.setHours(0, 0, 0, 0);
+
+            if (!isNaN(fechaSeleccionada)) {
+                const diasTranscurridos = Math.floor((hoy - fechaSeleccionada) / (1000 * 60 * 60 * 24));
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    // Si el día es hoy: solo permitir 0
+                    duracionInput.min = 0;
+                    duracionInput.max = 0;
+                    duracionInput.value = 0;
+                } else if (fechaSeleccionada < hoy) {
+                    // Fechas pasadas: mínimo 1, máximo según días transcurridos
+                    duracionInput.min = 1;
+                    duracionInput.max = diasTranscurridos;
+                    duracionInput.value = '';
+                } else {
+            // Fechas futuras: limpiar todo
+                    duracionInput.min = '';
+                    duracionInput.max = '';
+                    duracionInput.value = '';
+                }
+            }
+        }
     </script>
 
 </body>

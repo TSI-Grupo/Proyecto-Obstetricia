@@ -7,7 +7,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
+
 import java.time.LocalDate;
+
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ciclo_menstrual")
@@ -18,6 +25,14 @@ public class CicloMenstrual {
 
     private LocalDate primerDiaPeriodo;
 
+    // Validacion de fecha implementada
+    @AssertTrue(message = "La fecha del primer día no puede ser futura.")
+    public boolean isPrimerDiaValido() {
+        return primerDiaPeriodo == null || !primerDiaPeriodo.isAfter(LocalDate.now());
+    }
+
+    @NotNull
+    @Min(1)
     private Integer duracionCiclo; 
 
     private String flujo; 
@@ -27,6 +42,16 @@ public class CicloMenstrual {
     private String sintomas; 
 
     private String estadoAnimo;
+
+    @Transient
+    private String sintomasFormateados;
+
+    @Transient
+    private String estadoAnimoFormateado;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id") // FK a Usuario
@@ -97,6 +122,14 @@ public class CicloMenstrual {
         this.estadoAnimo = estadoAnimo;
     }
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+    
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     public CicloMenstrual() {
     }
 
@@ -109,6 +142,22 @@ public class CicloMenstrual {
         this.mocoVaginal = mocoVaginal;
         this.sintomas = sintomas;
         this.estadoAnimo = estadoAnimo;
+    }
+
+    public String getSintomasFormateados() {
+        return sintomasFormateados;
+    }
+    
+    public void setSintomasFormateados(String sintomasFormateados) {
+        this.sintomasFormateados = sintomasFormateados;
+    }
+    
+    public String getEstadoAnimoFormateado() {
+        return estadoAnimoFormateado;
+    }
+    
+    public void setEstadoAnimoFormateado(String estadoAnimoFormateado) {
+        this.estadoAnimoFormateado = estadoAnimoFormateado;
     }
     
 }

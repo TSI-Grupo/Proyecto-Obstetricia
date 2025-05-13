@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Ciclos Menstruales</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <style>
+        table td {
+            padding: 12px 15px;
+            vertical-align: top;
+            white-space: normal; /* Esto permite saltos de línea */
+            word-wrap: break-word;
+            max-width: 300px; /* Ajusta según lo necesario */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Listado de Ciclos Menstruales</h2>
+
+    <div style="text-align: right;">
+        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Paciente</th>
+            <th>Fecha de Inicio</th>
+            <th>Duración del Ciclo (Días)</th>
+            <th>Flujo</th>
+            <th>Moco Vaginal</th>
+            <th>Sintomas</th>
+            <th>Estado de Ánimo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ciclo : ${ciclos}">
+            <td th:text="${ciclo.paciente != null ? ciclo.paciente.nombreCompleto : 'Sin paciente'}">Paciente</td>
+            <td th:text="${ciclo.primerDiaPeriodo}">Fecha de Inicio</td>
+            <td th:text="${ciclo.duracionCiclo}">Duración</td>
+            <td th:text="${ciclo.flujo}">Flujo</td>
+            <td th:text="${ciclo.mocoVaginal}">Moco Vaginal</td>
+            <td th:utext="${ciclo.sintomasFormateados}">Síntomas</td>
+            <td th:utext="${ciclo.estadoAnimoFormateado}">Estado de Ánimo</td>
+            <td>
+                <a th:href="@{'/ciclos-menstruales/editar/' + ${ciclo.id}}" class="btn btn-sm btn-warning">
+                    <span class="glyphicon glyphicon-pencil"></span> Editar
+                </a>
+                <a th:href="@{'/ciclos-menstruales/eliminar/' + ${ciclo.id}}" class="btn btn-sm btn-danger"
+                    onclick="return confirm('¿Estás seguro de eliminar este ciclo?');">
+                    <span class="glyphicon glyphicon-trash"></span> Eliminar
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="/ciclos-menstruales/validar-rut" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus"></span> Registrar Nuevo Ciclo
+        </a>
+    </div>
+</div>
+</body>
+</html>

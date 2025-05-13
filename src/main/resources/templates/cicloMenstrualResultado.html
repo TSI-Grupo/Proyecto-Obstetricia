@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado Ciclo Menstrual</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h3>¡Registro guardado exitosamente!</h3>
+        <p th:if="${sugerencia}" th:text="${sugerencia}">Recuerda siempre llevar un control de tu ciclo menstrual.</p>
+        <a href="/" class="btn btn-primary">Volver al inicio</a>
+    </div>
+</div>
+</body>
+</html>
