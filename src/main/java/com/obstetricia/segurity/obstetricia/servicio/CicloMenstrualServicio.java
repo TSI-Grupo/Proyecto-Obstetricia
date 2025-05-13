@@ -1,5 +1,8 @@
 package com.obstetricia.segurity.obstetricia.servicio;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,18 @@ public class CicloMenstrualServicio {
         ciclo.setSintomas(ciclodto.getSintomas());
         ciclo.setEstadoAnimo(ciclodto.getEstadoAnimo());
         return repositorio.save(ciclo);
+    }
+
+    public List<CicloMenstrual> obtenerTodos() {
+        return repositorio.findAll();
+    }
+
+    public Optional<CicloMenstrual> obtenerPorId(Long id) {
+        return repositorio.findById(id);
+    }
+
+    public void eliminarPorId(Long id) {
+        repositorio.deleteById(id);
     }
 
 }

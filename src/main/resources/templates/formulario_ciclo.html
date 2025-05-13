@@ -7,7 +7,9 @@
 <body onload="actualizarRangosDuracion()">
 <div class="container mt-5">
     <h2>Registrar Ciclo Menstrual</h2>
-    <form th:action="@{/ciclos_menstruales/registrar}" th:object="${ciclo}" method="post" class="row g-3">
+    <form th:action="@{/ciclos-menstruales/guardar}" th:object="${ciclo}" method="post" class="row g-3">
+        <input type="hidden" th:field="*{paciente.id}">
+        <input type="hidden" th:field="*{id}" />
 
         <div class="col-md-6">
             <label for="primerDiaPeriodo" class="form-label">Primer Día del Periodo</label>

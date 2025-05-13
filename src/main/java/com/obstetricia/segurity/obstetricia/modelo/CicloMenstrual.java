@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,16 @@ public class CicloMenstrual {
     private String sintomas; 
 
     private String estadoAnimo;
+
+    @Transient
+    private String sintomasFormateados;
+
+    @Transient
+    private String estadoAnimoFormateado;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id") // FK a Usuario
@@ -109,6 +120,14 @@ public class CicloMenstrual {
         this.estadoAnimo = estadoAnimo;
     }
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+    
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
     public CicloMenstrual() {
     }
 
@@ -121,6 +140,22 @@ public class CicloMenstrual {
         this.mocoVaginal = mocoVaginal;
         this.sintomas = sintomas;
         this.estadoAnimo = estadoAnimo;
+    }
+
+    public String getSintomasFormateados() {
+        return sintomasFormateados;
+    }
+    
+    public void setSintomasFormateados(String sintomasFormateados) {
+        this.sintomasFormateados = sintomasFormateados;
+    }
+    
+    public String getEstadoAnimoFormateado() {
+        return estadoAnimoFormateado;
+    }
+    
+    public void setEstadoAnimoFormateado(String estadoAnimoFormateado) {
+        this.estadoAnimoFormateado = estadoAnimoFormateado;
     }
     
 }
