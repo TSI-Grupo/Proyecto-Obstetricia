@@ -3,6 +3,8 @@ package com.obstetricia.segurity.obstetricia.servicio;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.obstetricia.segurity.obstetricia.modelo.Paciente;
@@ -17,4 +19,8 @@ public class PacienteServicio {
     public Optional<Paciente> buscarPorRut(String rut) {
         return pacienteRepository.findByRut(rut);
     }
+    public Page<Paciente> findAll(Pageable pageable) {
+    return pacienteRepository.findAll(pageable);
+}
+
 }

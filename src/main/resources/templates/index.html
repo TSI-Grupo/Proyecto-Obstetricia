@@ -41,7 +41,7 @@
                         <li><a th:href="@{/pacientes}">Lista</a></li>
                     </ul>
                 </li>
-                                <li class="dropdown">
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Ciclo Menstrual <span class="caret"></span>
                     </a>
@@ -60,10 +60,13 @@
                     </ul>
                 </li>
                 <li sec:authorize="hasRole('ADMIN')">
-                     <a  th:href="@{/administracionEsp}">PANEL DE ADMINISTRACIÓN</a>
+                     <a th:href="@{/administracionEsp}">PANEL DE ADMINISTRACIÓN</a>
                 </li>
-
             </ul>
+
+<a th:href="@{/pacientes/historial}" class="btn btn-primary">Consultar Historial Pacientes</a>
+
+
             <ul class="nav navbar-nav navbar-right">
                 <form th:action="@{/logout}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-link navbar-btn">Cerrar sesión</button>
