@@ -25,12 +25,13 @@
         <tr th:each="paciente : ${pacientes.content}">
             <td th:text="${paciente.nombreCompleto}">Nombre del paciente</td>
             <td>
-                <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar Información</a>
+                <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar Información personal</a>
             </td>
             <td>
-                <a th:href="@{/ciclo-menstrual/{id}(id=${paciente.id})}" class="btn btn-sm btn-primary">Ciclo Menstrual</a>
-                <a th:href="@{/actividad-sexual/{id}(id=${paciente.id})}" class="btn btn-sm btn-info">Actividad Sexual</a>
-                <a th:href="@{/embarazos/{id}(id=${paciente.id})}" class="btn btn-sm btn-success">Embarazos</a>
+                <a th:href="@{/ciclos-menstruales/ciclos_paciente/{id}(id=${paciente.id})}" class="btn btn-sm btn-primary">Ciclo Menstrual</a>
+                <a th:href="@{'/actividad-sexual/paciente/' + ${paciente.id}}" class="btn btn-warning btn-sm">Actividad Sexual</a>
+              <a th:href="@{'/embarazo/embarazos/paciente/' + ${paciente.id}}" class="btn btn-success btn-sm">Embarazos</a>
+
             </td>
         </tr>
         </tbody>

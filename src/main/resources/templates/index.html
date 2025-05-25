@@ -4,12 +4,11 @@
 <head>
     <meta charset="utf-8">
     <title>Inicio</title>
-    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
-    <!-- Optional theme -->
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
@@ -32,41 +31,41 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+
+                <!-- Registrar -->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Pacientes <span class="caret"></span>
-                    </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Registrar <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/pacientes/new}">Registro</a></li>
-                        <li><a th:href="@{/pacientes}">Lista</a></li>
+                        <li><a th:href="@{/pacientes/new}">Pacientes</a></li>
+                        <li><a th:href="@{/ciclos-menstruales/validar-rut}">Ciclo Menstrual</a></li>
+                        <li><a th:href="@{/actividad-sexual/validar-rut}">Actividad Sexual</a></li>
+                        <li><a th:href="@{/embarazo/validar-rut}">Embarazo</a></li>
                     </ul>
                 </li>
+
+                <!-- Listados de -->
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Ciclo Menstrual <span class="caret"></span>
-                    </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Listados de <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a th:href="@{/ciclos-menstruales/validar-rut}">Registro</a></li>
-                        <li><a th:href="@{/ciclos-menstruales/listado}">Lista</a></li>
+                        <li><a th:href="@{/pacientes}">Pacientes</a></li>
+                        <li><a th:href="@{/ciclos-menstruales/listado}">Ciclo Menstrual</a></li>
+                        <li><a th:href="@{/actividad-sexual/listado}">Actividad Sexual</a></li>
+                        <li><a th:href="@{/embarazo/embarazoListado}">Embarazo</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Actividad Sexual <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a th:href="@{/actividad-sexual/listado}">Lista</a></li>
-                        <li><a th:href="@{/actividad-sexual/validar-rut}">Registro</a></li>
-                    </ul>
+
+                <!-- Consultar historial de datos -->
+                <li>
+                    <a th:href="@{/pacientes/historial}">Consultar historial de datos</a>
                 </li>
+
+                <!-- Panel de administración -->
                 <li sec:authorize="hasRole('ADMIN')">
-                     <a th:href="@{/administracionEsp}">PANEL DE ADMINISTRACIÓN</a>
+                    <a th:href="@{/administracionEsp}">PANEL DE ADMINISTRACIÓN</a>
                 </li>
             </ul>
 
-<a th:href="@{/pacientes/historial}" class="btn btn-primary">Consultar Historial Pacientes</a>
-
-
+            <!-- Botón cerrar sesión -->
             <ul class="nav navbar-nav navbar-right">
                 <form th:action="@{/logout}" method="post" style="display:inline;">
                     <button type="submit" class="btn btn-link navbar-btn">Cerrar sesión</button>
@@ -78,7 +77,7 @@
 
 <br><br><br>
 
-<!-- jQuery first, then Bootstrap JS -->
+<!-- jQuery y Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"

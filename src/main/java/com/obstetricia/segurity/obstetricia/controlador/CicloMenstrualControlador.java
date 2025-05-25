@@ -3,6 +3,7 @@ package com.obstetricia.segurity.obstetricia.controlador;
 import com.obstetricia.segurity.obstetricia.modelo.CicloMenstrual;
 import com.obstetricia.segurity.obstetricia.modelo.Paciente;
 import com.obstetricia.segurity.obstetricia.repositorio.CicloMenstrualRepositorio;
+import com.obstetricia.segurity.obstetricia.repositorio.PacienteRepositorio;
 import com.obstetricia.segurity.obstetricia.servicio.CicloMenstrualServicio;
 import com.obstetricia.segurity.obstetricia.servicio.PacienteServicio;
 
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/ciclos-menstruales")
 public class CicloMenstrualControlador {
+    @Autowired
+    private PacienteRepositorio pacienteRepositorio;
 
     @Autowired
     private PacienteServicio pacienteService;
@@ -129,4 +132,31 @@ public class CicloMenstrualControlador {
         servicio.eliminarPorId(id);
         return "redirect:/ciclos-menstruales/listado";
     }
+
+@GetMapping("/ciclos_paciente/{id}")
+public String listarPorPaciente(@PathVariable Long id, Model model) {
+    Paciente paciente = pacienteRepositorio.findById(id).orElse(null);
+    List<CicloMenstrual> ciclos = repositorio.findByPacienteId(id);
+
+    // Agregamos formateo como en el listado general
+    List<CicloMenstrual> ciclosFormateados = ciclos.stream().map(ciclo -> {
+        String sintomasFormateados = ciclo.getSintomas() != null
+                ? String.join("<br/>", ciclo.getSintomas().split(","))
+                : "";
+
+        String estadoAnimoFormateado = ciclo.getEstadoAnimo() != null
+                ? String.join("<br/>", ciclo.getEstadoAnimo().split(","))
+                : "";
+
+        ciclo.setSintomasFormateados(sintomasFormateados);
+        ciclo.setEstadoAnimoFormateado(estadoAnimoFormateado);
+        return ciclo;
+    }).toList();
+
+    model.addAttribute("paciente", paciente);
+    model.addAttribute("ciclos", ciclosFormateados);
+
+    return "ciclos_paciente";
+}
+
 }

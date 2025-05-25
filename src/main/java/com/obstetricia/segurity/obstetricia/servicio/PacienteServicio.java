@@ -1,5 +1,6 @@
 package com.obstetricia.segurity.obstetricia.servicio;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,8 @@ public class PacienteServicio {
     public Page<Paciente> findAll(Pageable pageable) {
     return pacienteRepository.findAll(pageable);
 }
+       public List<Paciente> listarPacientes() {
+        return pacienteRepository.findAll();
+    }
 
 }
