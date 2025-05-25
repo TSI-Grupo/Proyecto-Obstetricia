@@ -2,15 +2,7 @@ package com.obstetricia.segurity.obstetricia.modelo;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "control_embarazo")
@@ -25,6 +17,9 @@ public class ControlEmbarazo {
     private Integer trimestre;
 
     private LocalDate ultimoDiaMenstruacion;
+
+
+    private LocalDate fechaFinEmbarazo;
 
     @ManyToOne
     @JoinColumn(name = "paciente_id")
@@ -81,6 +76,14 @@ public class ControlEmbarazo {
         this.ultimoDiaMenstruacion = ultimoDiaMenstruacion;
     }
 
+    public LocalDate getFechaFinEmbarazo() {
+        return fechaFinEmbarazo;
+    }
+
+    public void setFechaFinEmbarazo(LocalDate fechaFinEmbarazo) {
+        this.fechaFinEmbarazo = fechaFinEmbarazo;
+    }
+
     public Paciente getPaciente() {
         return paciente;
     }
@@ -97,9 +100,7 @@ public class ControlEmbarazo {
         this.usuario = usuario;
     }
 
-    public ControlEmbarazo(){
-
-    }
+    public ControlEmbarazo() {}
 
     public ControlEmbarazo(Integer semanas, Integer trimestre, LocalDate ultimoDiaMenstruacion, Paciente paciente) {
         this.semanas = semanas;
@@ -111,5 +112,4 @@ public class ControlEmbarazo {
     public void setPaciente(Optional<Paciente> paciente2) {
         throw new UnsupportedOperationException("Unimplemented method 'setPaciente'");
     }
-
 }

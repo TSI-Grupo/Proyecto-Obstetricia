@@ -74,57 +74,64 @@ public class ControlEmbarazoControlador {
         }
     }
 
-    @PostMapping("/guardar")
-    public String guardarEmbarazo(
-        @ModelAttribute ControlEmbarazo controlEmbarazo,
-        @RequestParam("rutPaciente") String rutPaciente,
-        BindingResult result,
-        Model model) {
+@PostMapping("/guardar")
+public String guardarEmbarazo(
+    @ModelAttribute ControlEmbarazo controlEmbarazo,
+    @RequestParam("rutPaciente") String rutPaciente,
+    BindingResult result,
+    Model model) {
 
-            // Buscar paciente en base al rutPaciente
-            Optional<Paciente> pacienteOpt = pacienteServicio.buscarPorRut(rutPaciente);
-            if (pacienteOpt.isEmpty()) {
-                // Si no existe paciente, devolver error o redirigir
-                result.reject("paciente", "Paciente no encontrado para el RUT: " + rutPaciente);
-                model.addAttribute("controlEmbarazo", controlEmbarazo);
-                return "formulario_embarazo";
-            }
-            // Setear el paciente completo en controlEmbarazo
-            controlEmbarazo.setPaciente(pacienteOpt.get());
+    // Buscar paciente
+    Optional<Paciente> pacienteOpt = pacienteServicio.buscarPorRut(rutPaciente);
+    if (pacienteOpt.isEmpty()) {
+        result.reject("paciente", "Paciente no encontrado para el RUT: " + rutPaciente);
+        model.addAttribute("controlEmbarazo", controlEmbarazo);
+        return "formulario_embarazo";
+    }
 
-            // Validaciones y guardado como antes
-            if (controlEmbarazo.getUltimoDiaMenstruacion() != null && controlEmbarazo.getUltimoDiaMenstruacion().isAfter(LocalDate.now())) {
-                result.rejectValue("ultimoDiaMenstruacion", "error.embarazo", "La fecha no puede ser futura.");
-            }
+    controlEmbarazo.setPaciente(pacienteOpt.get());
 
-            // Validar que no sea anterior a hace 42 semanas (294 días)
-            if (controlEmbarazo.getUltimoDiaMenstruacion() != null && controlEmbarazo.getUltimoDiaMenstruacion().isBefore(LocalDate.now().minusDays(294))) {
-                result.rejectValue("ultimoDiaMenstruacion", "error.embarazo", "La fecha no puede ser anterior a 42 semanas.");
-            }
+    // Validar último día de menstruación
+    if (controlEmbarazo.getUltimoDiaMenstruacion() != null &&
+        controlEmbarazo.getUltimoDiaMenstruacion().isAfter(LocalDate.now())) {
+        result.rejectValue("ultimoDiaMenstruacion", "error.embarazo", "La fecha no puede ser futura.");
+    }
 
-            if (result.hasErrors()) {
-                model.addAttribute("controlEmbarazo", controlEmbarazo);
-                return "formulario_embarazo";
-            }
+    if (controlEmbarazo.getUltimoDiaMenstruacion() != null &&
+        controlEmbarazo.getUltimoDiaMenstruacion().isBefore(LocalDate.now().minusDays(294))) {
+        result.rejectValue("ultimoDiaMenstruacion", "error.embarazo", "La fecha no puede ser anterior a 42 semanas.");
+    }
 
-            controlEmbarazo.setSemanas(controlEmbarazo.calcularSemanas());
-            controlEmbarazo.setTrimestre(controlEmbarazo.calcularTrimestre());
+    // ✅ Validar fecha de fin de embarazo (si está presente)
+    if (controlEmbarazo.getFechaFinEmbarazo() != null &&
+        controlEmbarazo.getFechaFinEmbarazo().isAfter(LocalDate.now())) {
+        result.rejectValue("fechaFinEmbarazo", "error.embarazo", "La fecha de fin no puede ser futura.");
+    }
 
-            if (controlEmbarazo.getId() != null && repositorio.existsById(controlEmbarazo.getId())) {
-                ControlEmbarazo existente = repositorio.findById(controlEmbarazo.getId()).get();
+    if (result.hasErrors()) {
+        model.addAttribute("controlEmbarazo", controlEmbarazo);
+        return "formulario_embarazo";
+    }
 
-                existente.setUltimoDiaMenstruacion(controlEmbarazo.getUltimoDiaMenstruacion());
-                existente.setSemanas(controlEmbarazo.getSemanas());
-                existente.setTrimestre(controlEmbarazo.getTrimestre());
-                existente.setPaciente(controlEmbarazo.getPaciente());
+    controlEmbarazo.setSemanas(controlEmbarazo.calcularSemanas());
+    controlEmbarazo.setTrimestre(controlEmbarazo.calcularTrimestre());
 
-                repositorio.save(existente);
-            } else {
-                repositorio.save(controlEmbarazo);
-            }
+    if (controlEmbarazo.getId() != null && repositorio.existsById(controlEmbarazo.getId())) {
+        ControlEmbarazo existente = repositorio.findById(controlEmbarazo.getId()).get();
 
-            return "embarazoResultado";
-        }
+        existente.setUltimoDiaMenstruacion(controlEmbarazo.getUltimoDiaMenstruacion());
+        existente.setSemanas(controlEmbarazo.getSemanas());
+        existente.setTrimestre(controlEmbarazo.getTrimestre());
+        existente.setPaciente(controlEmbarazo.getPaciente());
+        existente.setFechaFinEmbarazo(controlEmbarazo.getFechaFinEmbarazo()); // ✅ NUEVO
+
+        repositorio.save(existente);
+    } else {
+        repositorio.save(controlEmbarazo); // fechaFinEmbarazo se guarda directamente desde el objeto
+    }
+
+    return "embarazoResultado";
+}
 
     @GetMapping("/embarazoListado")
     public String listarEmbarazos(Model model) {
@@ -148,6 +155,7 @@ public String listarEmbarazosPorPaciente(@PathVariable Long id, Model model) {
 
     return "embarazos_paciente"; // asegúrate de tener embarazos_paciente.html en templates
 }
+
 
 }
 
