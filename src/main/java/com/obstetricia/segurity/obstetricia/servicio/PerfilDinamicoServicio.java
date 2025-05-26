@@ -1,14 +1,12 @@
 package com.obstetricia.segurity.obstetricia.servicio;
 
-import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.obstetricia.segurity.obstetricia.modelo.CicloMenstrual;
-import com.obstetricia.segurity.obstetricia.modelo.ControlEmbarazo;
 import com.obstetricia.segurity.obstetricia.modelo.EstadoPerfil;
+import com.obstetricia.segurity.obstetricia.modelo.ControlEmbarazo;
 import com.obstetricia.segurity.obstetricia.repositorio.CicloMenstrualRepositorio;
 import com.obstetricia.segurity.obstetricia.repositorio.ControlEmbarazoRepositorio;
 
@@ -22,23 +20,23 @@ public class PerfilDinamicoServicio {
     private ControlEmbarazoRepositorio embarazoRepo;
 
     public EstadoPerfil determinarPerfil(Long pacienteId) {
-       boolean tieneCiclo = cicloRepo.existsByPacienteId(pacienteId);
-        Optional<ControlEmbarazo> embarazoOpt = embarazoRepo.findUltimoPorPacienteId(pacienteId); // ordenado por fecha
+        boolean tieneCiclo = cicloRepo.existsByPacienteId(pacienteId);
 
-        if (tieneCiclo && embarazoOpt.isEmpty()) {
+        // Obtener la lista de embarazos ordenada por fecha fin
+        List<ControlEmbarazo> embarazos = embarazoRepo.findTop1ByPacienteIdOrderByFechaFinEmbarazoDesc(pacienteId);
+
+        boolean tieneEmbarazo = !embarazos.isEmpty();
+
+        if(tieneCiclo && tieneEmbarazo){
+            return EstadoPerfil.MENSTRUANTE_EMBARAZADA;
+        }
+
+        if (tieneCiclo && !tieneEmbarazo) {
             return EstadoPerfil.MENSTRUANTE;
         }
 
-        if (embarazoOpt.isPresent()) {
-            LocalDate fechaFinEmbarazo = embarazoOpt.get().getFechaFinEmbarazo();
-
-
-            Optional<CicloMenstrual> cicloPostEmbarazo = cicloRepo.findPrimeroDespuesDeFecha(pacienteId, fechaFinEmbarazo);
-            if (cicloPostEmbarazo.isPresent()) {
-                return EstadoPerfil.POSTPARTO;
-            } else {
-                return EstadoPerfil.EMBARAZADA;
-            }
+        if (tieneEmbarazo) {
+            return EstadoPerfil.EMBARAZADA;
         }
 
         return EstadoPerfil.MENOPÁUSICA;

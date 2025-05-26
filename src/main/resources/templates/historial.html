@@ -15,26 +15,33 @@
 
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Accion</th>
-            <th>Visualizar</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="paciente : ${pacientes.content}">
-            <td th:text="${paciente.nombreCompleto}">Nombre del paciente</td>
-            <td>
-                <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar Información personal</a>
-            </td>
-            <td>
-                <a th:href="@{/ciclos-menstruales/ciclos_paciente/{id}(id=${paciente.id})}" class="btn btn-sm btn-primary">Ciclo Menstrual</a>
-                <a th:href="@{'/actividad-sexual/paciente/' + ${paciente.id}}" class="btn btn-warning btn-sm">Actividad Sexual</a>
-              <a th:href="@{'/embarazo/embarazos/paciente/' + ${paciente.id}}" class="btn btn-success btn-sm">Embarazos</a>
+<thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Acción</th>
+        <th>Visualizar</th>
+        <th>Estado</th> <!-- Nueva columna -->
+    </tr>
+</thead>
+<tbody>
+    <tr th:each="paciente : ${pacientes.content}">
+        <td th:text="${paciente.nombreCompleto}">Nombre del paciente</td>
+        <td>
+            <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar Información
+                personal</a>
+        </td>
+        <td>
+            <a th:href="@{/ciclos-menstruales/ciclos_paciente/{id}(id=${paciente.id})}"
+                class="btn btn-sm btn-primary">Ciclo Menstrual</a>
+            <a th:href="@{'/actividad-sexual/paciente/' + ${paciente.id}}" class="btn btn-warning btn-sm">Actividad
+                Sexual</a>
+            <a th:href="@{'/embarazo/embarazos/paciente/' + ${paciente.id}}"
+                class="btn btn-success btn-sm">Embarazos</a>
+        </td>
+        <td th:text="${estadosPerfil[paciente.id]}">Estado</td> <!-- Mostrar el estado -->
+    </tr>
+</tbody>
 
-            </td>
-        </tr>
-        </tbody>
     </table>
 
     <!-- Paginación -->

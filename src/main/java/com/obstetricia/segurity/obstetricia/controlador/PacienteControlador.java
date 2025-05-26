@@ -1,5 +1,8 @@
 package com.obstetricia.segurity.obstetricia.controlador;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.obstetricia.segurity.obstetricia.modelo.EstadoPerfil;
 import com.obstetricia.segurity.obstetricia.modelo.Paciente;
 import com.obstetricia.segurity.obstetricia.repositorio.PacienteRepositorio;
 import com.obstetricia.segurity.obstetricia.servicio.PacienteServicio;
+import com.obstetricia.segurity.obstetricia.servicio.PerfilDinamicoServicio;
 
 import org.springframework.ui.Model;
 
@@ -31,6 +36,9 @@ public class PacienteControlador {
 
     @Autowired
     private PacienteRepositorio pacienteRepo;
+
+    @Autowired
+    private PerfilDinamicoServicio perfilDinamicoServicio;
 
     @GetMapping("/new")
     public String showForm(Model model) {
@@ -65,9 +73,19 @@ public class PacienteControlador {
 
     @GetMapping("/historial")
     public String listarPacientes(@RequestParam(defaultValue = "0") int page, Model model) {
-    Page<Paciente> pacientes = pacienteServicio.findAll(PageRequest.of(page, 10));
-    model.addAttribute("pacientes", pacientes);
-    return "historial";
-}
+        Page<Paciente> pacientes = pacienteServicio.findAll(PageRequest.of(page, 10));
+
+        Map<Long, EstadoPerfil> estadosPerfil = new HashMap<>();
+        for (Paciente paciente : pacientes.getContent()) {
+            EstadoPerfil estado = perfilDinamicoServicio.determinarPerfil(paciente.getId());
+            estadosPerfil.put(paciente.getId(), estado);
+        }
+
+        model.addAttribute("pacientes", pacientes);
+        model.addAttribute("estadosPerfil", estadosPerfil); // 👈 esto es nuevo
+
+        return "historial";
+    }
+
 
 }

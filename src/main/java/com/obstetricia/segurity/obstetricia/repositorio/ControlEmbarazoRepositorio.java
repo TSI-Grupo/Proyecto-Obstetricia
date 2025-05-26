@@ -1,7 +1,7 @@
 package com.obstetricia.segurity.obstetricia.repositorio;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,8 @@ public interface ControlEmbarazoRepositorio extends JpaRepository<ControlEmbaraz
 
         List<ControlEmbarazo> findByPacienteId(Long pacienteId);
 @Query("SELECT e FROM ControlEmbarazo e WHERE e.paciente.id = :pacienteId ORDER BY e.fechaFinEmbarazo DESC")
-Optional<ControlEmbarazo> findUltimoPorPacienteId(@Param("pacienteId") Long pacienteId);
+List<ControlEmbarazo> findTop1ByPacienteIdOrderByFechaFinEmbarazoDesc(@Param("pacienteId") Long pacienteId);
+
 
 
 }
