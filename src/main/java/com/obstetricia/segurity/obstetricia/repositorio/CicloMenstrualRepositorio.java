@@ -13,6 +13,7 @@ import com.obstetricia.segurity.obstetricia.modelo.CicloMenstrual;
 public interface CicloMenstrualRepositorio extends JpaRepository<CicloMenstrual, Long>{
     List<CicloMenstrual> findByPacienteId(Long pacienteId);
     boolean existsByPacienteId(Long pacienteId);
+Optional<CicloMenstrual> findTopByPacienteIdOrderByPrimerDiaPeriodoDesc(Long pacienteId);
 @Query("SELECT c FROM CicloMenstrual c WHERE c.paciente.id = :pacienteId AND c.primerDiaPeriodo > :fecha ORDER BY c.primerDiaPeriodo ASC")
 Optional<CicloMenstrual> findPrimeroDespuesDeFecha(@Param("pacienteId") Long pacienteId, @Param("fecha") LocalDate fecha);
 
