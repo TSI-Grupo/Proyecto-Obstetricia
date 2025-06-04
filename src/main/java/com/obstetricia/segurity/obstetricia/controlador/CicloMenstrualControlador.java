@@ -1,13 +1,13 @@
 package com.obstetricia.segurity.obstetricia.controlador;
 
-//import com.obstetricia.segurity.obstetricia.dto.CicloMenstrualDTO;
 import com.obstetricia.segurity.obstetricia.modelo.CicloMenstrual;
 import com.obstetricia.segurity.obstetricia.modelo.Paciente;
 import com.obstetricia.segurity.obstetricia.repositorio.CicloMenstrualRepositorio;
+import com.obstetricia.segurity.obstetricia.repositorio.PacienteRepositorio;
 import com.obstetricia.segurity.obstetricia.servicio.CicloMenstrualServicio;
 import com.obstetricia.segurity.obstetricia.servicio.PacienteServicio;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid; // ← Cambiado de jakarta.validation a javax.validation
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/ciclos-menstruales")
 public class CicloMenstrualControlador {
+    @Autowired
+    private PacienteRepositorio pacienteRepositorio;
 
     @Autowired
     private PacienteServicio pacienteService;
@@ -98,7 +100,6 @@ public class CicloMenstrualControlador {
     public String mostrarListado(Model model) {
         List<CicloMenstrual> lista = servicio.obtenerTodos();
 
-        // Aquí formateamos los síntomas y estados de ánimo separando por coma y agregando <br/>
         List<CicloMenstrual> ciclosFormateados = lista.stream().map(ciclo -> {
             String sintomasFormateados = ciclo.getSintomas() != null
                 ? String.join("<br/>", ciclo.getSintomas().split(","))
@@ -112,9 +113,9 @@ public class CicloMenstrualControlador {
             return ciclo;
         }).toList();
 
-    model.addAttribute("ciclos", ciclosFormateados);
-    return "cicloMenstrualListado";
-}
+        model.addAttribute("ciclos", ciclosFormateados);
+        return "cicloMenstrualListado";
+    }
 
     // Paso 5: Editar
     @GetMapping("/editar/{id}")
@@ -131,4 +132,31 @@ public class CicloMenstrualControlador {
         servicio.eliminarPorId(id);
         return "redirect:/ciclos-menstruales/listado";
     }
+
+@GetMapping("/ciclos_paciente/{id}")
+public String listarPorPaciente(@PathVariable Long id, Model model) {
+    Paciente paciente = pacienteRepositorio.findById(id).orElse(null);
+    List<CicloMenstrual> ciclos = repositorio.findByPacienteId(id);
+
+    // Agregamos formateo como en el listado general
+    List<CicloMenstrual> ciclosFormateados = ciclos.stream().map(ciclo -> {
+        String sintomasFormateados = ciclo.getSintomas() != null
+                ? String.join("<br/>", ciclo.getSintomas().split(","))
+                : "";
+
+        String estadoAnimoFormateado = ciclo.getEstadoAnimo() != null
+                ? String.join("<br/>", ciclo.getEstadoAnimo().split(","))
+                : "";
+
+        ciclo.setSintomasFormateados(sintomasFormateados);
+        ciclo.setEstadoAnimoFormateado(estadoAnimoFormateado);
+        return ciclo;
+    }).toList();
+
+    model.addAttribute("paciente", paciente);
+    model.addAttribute("ciclos", ciclosFormateados);
+
+    return "ciclos_paciente";
+}
+
 }

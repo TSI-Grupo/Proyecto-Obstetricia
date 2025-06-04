@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingestas Anticonceptivas del Paciente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Ingestas Anticonceptivas de <span th:text="${paciente.nombreCompleto}">Paciente</span></h2>
+
+    <div style="text-align: right;">
+        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+    </div>
+
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Olvidó la pastilla</th>
+            <th>Efectos adversos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ingesta : ${ingestas}">
+            <td th:text="${ingesta.fecha}">Fecha</td>
+            <td th:text="${ingesta.olvidada ? 'Sí' : 'No'}">No</td>
+            <td th:text="${ingesta.efectosAdversos}">Sin efectos</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -2,8 +2,8 @@ package com.obstetricia.segurity.obstetricia.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class CicloMenstrualDTO {
 
@@ -59,8 +59,6 @@ public class CicloMenstrualDTO {
     public void setMocoVaginal(String mocoVaginal) {
         this.mocoVaginal = mocoVaginal;
     }
-
-    
 
     //private String[] sintomas;
     //private String otroSintoma;

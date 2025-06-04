@@ -1,5 +1,6 @@
 package com.obstetricia.segurity.obstetricia.controlador;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.obstetricia.segurity.obstetricia.modelo.ActividadSexual;
 import com.obstetricia.segurity.obstetricia.modelo.Paciente;
+import com.obstetricia.segurity.obstetricia.repositorio.ActividadSexualRepositorio;
+import com.obstetricia.segurity.obstetricia.repositorio.PacienteRepositorio;
 import com.obstetricia.segurity.obstetricia.servicio.ActividadSexualServicio;
 import com.obstetricia.segurity.obstetricia.servicio.PacienteServicio;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +32,13 @@ public class ActividadSexualControlador {
     private PacienteServicio pacienteService;
 
     @Autowired
+    private PacienteRepositorio pacienteRepositorio;
+
+    @Autowired
     private ActividadSexualServicio actividadSexualService;
+
+    @Autowired
+    private ActividadSexualRepositorio actividadSexualRepositorio;
 
     // Paso 1: Mostrar formulario para ingresar RUT
     @GetMapping("/validar-rut")
@@ -89,5 +98,17 @@ public class ActividadSexualControlador {
         actividadSexualService.eliminarPorId(id);
         return "redirect:/actividad-sexual/listado";
     }
+
+    @GetMapping("/paciente/{id}")
+    public String listarActividadSexualPorPaciente(@PathVariable Long id, Model model) {
+    Paciente paciente = pacienteRepositorio.findById(id).orElse(null);
+    List<ActividadSexual> actividades = actividadSexualRepositorio.findByPacienteId(id);
+
+    model.addAttribute("paciente", paciente);
+    model.addAttribute("actividades", actividades);
+
+    return "actividad_sexual_paciente";
+}
+
 }
 

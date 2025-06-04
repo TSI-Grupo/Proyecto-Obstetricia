@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulario Control de Embarazo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body onload="ajustarMaxFecha()">
+<div class="container mt-5">
+    <h2>Formulario de Control de Embarazo</h2>
+
+    <form th:action="@{/embarazo/guardar}" th:object="${controlEmbarazo}" method="post" onsubmit="return validarFormulario()">
+
+        <!-- Campo oculto para enviar el id del control embarazo -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Campo oculto para enviar el RUT del paciente -->
+        <input type="hidden" name="rutPaciente" th:value="${controlEmbarazo.paciente.rut}" />
+
+        <div class="mb-3">
+            <label for="ultimoDiaMenstruacion" class="form-label">Último día de menstruación:</label>
+            <input
+                type="date"
+                id="ultimoDiaMenstruacion"
+                class="form-control"
+                th:field="*{ultimoDiaMenstruacion}"
+                max=""
+                required
+            />
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+    </form>
+</div>
+
+<script>
+    function ajustarMaxFecha() {
+        const fechaInput = document.getElementById('ultimoDiaMenstruacion');
+        const hoy = new Date();
+        const maxDias = 294; // 42 semanas
+
+        // Hoy en formato ISO
+        const hoyISO = hoy.toISOString().split('T')[0];
+
+        // Fecha mínima permitida: hoy - 294 días
+        const fechaMin = new Date(hoy.getTime() - (maxDias * 24 * 60 * 60 * 1000));
+        const minISO = fechaMin.toISOString().split('T')[0];
+
+        fechaInput.max = hoyISO;
+        fechaInput.min = minISO;
+    }
+
+    function validarFormulario() {
+        const fechaInput = document.getElementById('ultimoDiaMenstruacion');
+        const fechaSeleccionada = new Date(fechaInput.value);
+        const hoy = new Date();
+        const maxDias = 294;
+        const fechaMin = new Date(hoy.getTime() - (maxDias * 24 * 60 * 60 * 1000));
+
+        // Eliminar la parte de horas para comparación exacta
+        fechaSeleccionada.setHours(0, 0, 0, 0);
+        hoy.setHours(0, 0, 0, 0);
+        fechaMin.setHours(0, 0, 0, 0);
+
+        if (fechaSeleccionada > hoy) {
+            alert('La fecha no puede ser futura.');
+            return false;
+        }
+
+        if (fechaSeleccionada + 1 < fechaMin) {
+            alert('La fecha no puede ser anterior a 42 semanas.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+</body>
+</html>
