@@ -1,0 +1,352 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+:root {
+  --background: rgba(252, 234, 255, 1);
+  --bg-dark: rgba(167, 141, 192, 1);
+  --secondary: rgba(255, 73, 129, 1);
+  --primary: rgba(126, 63, 215, 1);
+  --dark: rgba(75, 68, 83, 1);
+  --primary-light: rgba(195, 175, 223, 1);
+}
+
+*{-webkit-font-smoothing: antialiased;
+box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+.macbook-pro {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.macbook-pro .div {
+  background-color: #ffffff;
+  width: 1728px;
+  height: 1117px;
+  position: relative;
+}
+
+.macbook-pro .frame {
+  position: absolute;
+  width: 1728px;
+  height: 100px;
+  top: 0;
+  left: 0;
+  background-color: var(--primary);
+}
+
+.macbook-pro .frame-2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  top: 38px;
+  left: 1526px;
+}
+
+.macbook-pro .text-wrapper {
+  position: relative;
+  width: 135px;
+  height: 23px;
+  margin-top: -0.50px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 20px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.macbook-pro .mdi-door-open {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.macbook-pro .group {
+  position: absolute;
+  width: 367px;
+  height: 64px;
+  top: 18px;
+  left: 42px;
+}
+
+.macbook-pro .tuportal-obstetricia {
+  position: absolute;
+  width: 301px;
+  top: 3px;
+  left: 64px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: transparent;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.macbook-pro .span {
+  color: #ff4981;
+}
+
+.macbook-pro .text-wrapper-2 {
+  color: #ffffff;
+}
+
+.macbook-pro .healthicons-doctor {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  top: 0;
+  left: 0;
+}
+
+.macbook-pro .img {
+  position: absolute;
+  width: 48px;
+  height: 49px;
+  top: 7px;
+  left: 8px;
+}
+
+.macbook-pro .frame-3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 42px;
+  position: absolute;
+  top: 35px;
+  left: 524px;
+}
+
+.macbook-pro .frame-4 {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.macbook-pro .text-wrapper-3 {
+  position: relative;
+  width: fit-content;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: var(--background);
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.macbook-pro .img-2 {
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.macbook-pro .frame-5 {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.macbook-pro .text-wrapper-4 {
+  position: relative;
+  width: 131px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: var(--background);
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.macbook-pro .text-wrapper-5 {
+  position: relative;
+  width: 140px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: var(--background);
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.macbook-pro .image {
+  position: absolute;
+  width: 997px;
+  height: 123px;
+  top: 187px;
+  left: 365px;
+  object-fit: cover;
+}
+/* Inject original CSS here */
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #ffffff;
+}
+
+.macbook-pro {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--primary);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 49px;
+}
+
+.site-title {
+  margin-left: 1rem;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.brand-name {
+  color: var(--secondary);
+}
+
+.specialty {
+  color: #ffffff;
+  display: block;
+}
+
+.main-nav {
+  flex-grow: 1;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--background);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.nav-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.logout-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.patient-list {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .logout-button {
+    margin-top: 1rem;
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .patient-list {
+    width: 100%;
+  }
+}
