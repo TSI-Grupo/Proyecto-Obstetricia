@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Editar Usuario</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />    
 </head>
 <body>
+<div th:insert="fragments/header :: header">...</div>    
 <div class="container">
     <h1>Editar Usuario</h1>
    <form th:action="@{/usuarios/actualizar}" th:object="${usuario}" method="post">
@@ -28,7 +30,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
-    <a th:href="@{/usuarios}" class="btn btn-default">Volver</a>
 </div>
 </body>
 </html>

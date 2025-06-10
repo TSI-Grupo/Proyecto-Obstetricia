@@ -1,67 +1,71 @@
 <!-- templates/pacientes_admin.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Administrar Pacientes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
+
 <body>
     <div th:insert="fragments/header :: header">...</div>
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Lista de Pacientes</h2>
-        <a th:href="@{/}" class="btn btn-secondary">Volver al Inicio</a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Lista de Pacientes</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acción</th>
+                        <th>Visualizar</th>
+                        <th>Estado</th> <!-- Nueva columna -->
+                    </tr>
+                </thead>
+            <tbody>
+                <tr th:each="paciente : ${pacientes.content}">
+                    <td th:text="${paciente.nombreCompleto}">Nombre del paciente</td>
+                    <td>
+                        <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar
+                            Información
+                            personal</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/ciclos-menstruales/ciclos_paciente/{id}(id=${paciente.id})}"
+                            class="btn btn-sm btn-primary">Ciclo Menstrual</a>
+                        <a th:href="@{'/actividad-sexual/paciente/' + ${paciente.id}}"
+                            class="btn btn-warning btn-sm">Actividad
+                            Sexual</a>
+                        <a th:href="@{'/embarazo/embarazos/paciente/' + ${paciente.id}}"
+                            class="btn btn-success btn-sm">Embarazos</a>
+                    </td>
+                    <td th:text="${estadosPerfil[paciente.id]}">Estado</td> <!-- Mostrar el estado -->
+                </tr>
+            </tbody>
+
+        </table>
+
+        <!-- Paginación -->
+        <nav th:if="${pacientes.totalPages > 1}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${pacientes.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/pacientes(page=${pacientes.number - 1})}">Anterior</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, pacientes.totalPages - 1)}"
+                    th:classappend="${pacientes.number == i} ? 'active'">
+                    <a class="page-link" th:href="@{/pacientes(page=${i})}" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${pacientes.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/pacientes(page=${pacientes.number + 1})}">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+
     </div>
-
-    <table class="table table-striped">
-        <thead>
-<thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Acción</th>
-        <th>Visualizar</th>
-        <th>Estado</th> <!-- Nueva columna -->
-    </tr>
-</thead>
-<tbody>
-    <tr th:each="paciente : ${pacientes.content}">
-        <td th:text="${paciente.nombreCompleto}">Nombre del paciente</td>
-        <td>
-            <a th:href="@{/pacientes/edit/{id}(id=${paciente.id})}" class="btn btn-sm btn-warning">Editar Información
-                personal</a>
-        </td>
-        <td>
-            <a th:href="@{/ciclos-menstruales/ciclos_paciente/{id}(id=${paciente.id})}"
-                class="btn btn-sm btn-primary">Ciclo Menstrual</a>
-            <a th:href="@{'/actividad-sexual/paciente/' + ${paciente.id}}" class="btn btn-warning btn-sm">Actividad
-                Sexual</a>
-            <a th:href="@{'/embarazo/embarazos/paciente/' + ${paciente.id}}"
-                class="btn btn-success btn-sm">Embarazos</a>
-        </td>
-        <td th:text="${estadosPerfil[paciente.id]}">Estado</td> <!-- Mostrar el estado -->
-    </tr>
-</tbody>
-
-    </table>
-
-    <!-- Paginación -->
-    <nav th:if="${pacientes.totalPages > 1}">
-        <ul class="pagination">
-            <li class="page-item" th:classappend="${pacientes.first} ? 'disabled'">
-                <a class="page-link" th:href="@{/pacientes(page=${pacientes.number - 1})}">Anterior</a>
-            </li>
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, pacientes.totalPages - 1)}"
-                th:classappend="${pacientes.number == i} ? 'active'">
-                <a class="page-link" th:href="@{/pacientes(page=${i})}" th:text="${i + 1}">1</a>
-            </li>
-            <li class="page-item" th:classappend="${pacientes.last} ? 'disabled'">
-                <a class="page-link" th:href="@{/pacientes(page=${pacientes.number + 1})}">Siguiente</a>
-            </li>
-        </ul>
-    </nav>
-
-</div>
 </body>
+
 </html>

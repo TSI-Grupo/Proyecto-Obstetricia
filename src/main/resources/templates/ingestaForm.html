@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Ingesta Anticonceptiva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        table td {
+            padding: 12px 15px;
+            vertical-align: top;
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+    </style>    
+</head>
+<body>
+<div th:insert="fragments/header :: header">...</div>       
+<div class="container mt-5">
+    <h2 class="text-center">Registrar Ingesta Anticonceptiva</h2>
+
+    <form th:action="@{/anticonceptivos/guardar}" method="post" class="border p-4 bg-light rounded shadow">
+        <input type="hidden" name="id" th:value="${ingesta.id}" />
+
+        <!-- RUT oculto o visible solo lectura -->
+        <div class="mb-3">
+            <label for="rutPaciente" class="form-label">RUT del Paciente:</label>
+            <input type="text" id="rutPaciente" name="rutPaciente" th:value="${ingesta.paciente.rut}" class="form-control" readonly>
+        </div>
+
+        <!-- Olvidó la pastilla -->
+        <div class="mb-3">
+            <label class="form-label">¿Olvidó la pastilla?</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="olvidada" value="true" th:checked="${ingesta.olvidada}" required>
+                <label class="form-check-label">Sí</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="olvidada" value="false" th:checked="${!ingesta.olvidada}">
+                <label class="form-check-label">No</label>
+            </div>
+        </div>
+
+        <!-- Fecha de ingesta -->
+        <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha de Ingesta:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" th:value="${#temporals.format(ingesta.fecha, 'yyyy-MM-dd')}" th:attr="min=${minDate}, max=${maxDate}" required>
+        </div>
+        <!-- Efectos adversos -->
+        <div class="mb-3">
+            <label for="efectosAdversos" class="form-label">Efectos Adversos:</label>
+            <textarea id="efectosAdversos" name="efectosAdversos" class="form-control" rows="3"
+                      placeholder="Describe cualquier efecto secundario... (opcional) "
+                      th:text="${ingesta.efectosAdversos}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Ingesta</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radios = document.querySelectorAll('input[name="olvidada"]');
+        const fechaInput = document.getElementById('fecha');
+
+        function toggleFechaInput() {
+            const seleccion = document.querySelector('input[name="olvidada"]:checked').value;
+            if (seleccion === 'true') {
+                fechaInput.disabled = true;
+                fechaInput.value = ''; // Limpia la fecha si se desactiva
+            } else {
+                fechaInput.disabled = false;
+            }
+        }
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', toggleFechaInput);
+        });
+
+        // Ejecutar al cargar la página (por ejemplo al editar una ingesta ya existente)
+        toggleFechaInput();
+    });
+</script>
+
+</body>
+</html>

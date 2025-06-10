@@ -3,8 +3,10 @@
 <head>
     <title>Registrar Ciclo Menstrual</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body onload="actualizarRangosDuracion()">
+<div th:insert="fragments/header :: header">...</div>  
 <div class="container mt-5">
     <h2>Registrar Ciclo Menstrual</h2>
     <form th:action="@{/ciclos-menstruales/guardar}" th:object="${ciclo}" method="post" class="row g-3">
@@ -13,7 +15,7 @@
 
         <div class="col-md-6">
             <label for="primerDiaPeriodo" class="form-label">Primer Día del Periodo</label>
-            <input type="date" class="form-control" th:attr="max=${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" id="primerDiaPeriodo" name="primerDiaPeriodo" onchange="actualizarRangosDuracion()" required>
+            <input type="date" class="form-control" th:field="*{primerDiaPeriodo}" th:attr="min=${minDate}, max=${maxDate}" onchange="actualizarRangosDuracion()" required />
         </div>
 
         <div class="col-md-6">

@@ -52,6 +52,8 @@ public class CicloMenstrualControlador {
             CicloMenstrual ciclo = new CicloMenstrual();
             ciclo.setPaciente(pacienteOpt.get());
             model.addAttribute("ciclo", ciclo);
+            model.addAttribute("minDate", LocalDate.now().minusYears(1).toString());
+            model.addAttribute("maxDate", LocalDate.now().toString());
             return "formulario_ciclo";
         } else {
             model.addAttribute("error", "El paciente con RUT " + rutPaciente + " no existe.");

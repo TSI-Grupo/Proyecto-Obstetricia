@@ -1,5 +1,7 @@
 package com.obstetricia.segurity.obstetricia.controlador;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +45,15 @@ public class PacienteControlador {
     @GetMapping("/new")
     public String showForm(Model model) {
         model.addAttribute("paciente", new Paciente());
+
+        LocalDate today = LocalDate.now();
+        LocalDate minDate = today.minusYears(65); // máximo 65 años
+        LocalDate maxDate = today.minusYears(11); // mínimo 11 años
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        model.addAttribute("minNacimiento", minDate.format(formatter));
+        model.addAttribute("maxNacimiento", maxDate.format(formatter));
+
         return "paciente_form";
     }
 

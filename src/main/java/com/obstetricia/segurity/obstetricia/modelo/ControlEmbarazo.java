@@ -18,7 +18,6 @@ public class ControlEmbarazo {
 
     private LocalDate ultimoDiaMenstruacion;
 
-
     private LocalDate fechaFinEmbarazo;
 
     @ManyToOne

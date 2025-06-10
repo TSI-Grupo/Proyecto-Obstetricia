@@ -1,5 +1,7 @@
 package com.obstetricia.segurity.obstetricia.controlador;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,12 +58,22 @@ public class ActividadSexualControlador {
     // Paso 2: Procesar RUT
     @PostMapping("/validar-rut")
     public String procesarRut(@RequestParam String rutPaciente, Model model) {
-        Optional<Paciente> pacienteOpt = pacienteService.buscarPorRut(rutPaciente);
+    Optional<Paciente> pacienteOpt = pacienteService.buscarPorRut(rutPaciente);
 
         if (pacienteOpt.isPresent()) {
             ActividadSexual actividadSexual = new ActividadSexual();
             actividadSexual.setPaciente(pacienteOpt.get());
             model.addAttribute("actividadSexual", actividadSexual);
+
+            // Establecer límites de fecha
+            LocalDate today = LocalDate.now();
+            LocalDate minDate = today.minusYears(1);
+            LocalDate maxDate = today;
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            model.addAttribute("minFecha", minDate.format(formatter));
+            model.addAttribute("maxFecha", maxDate.format(formatter));
+
             return "actividadSexualForm";
         } else {
             model.addAttribute("error", "El paciente con RUT " + rutPaciente + " no existe.");
@@ -86,7 +98,17 @@ public class ActividadSexualControlador {
         Optional<ActividadSexual> actividadOpt = actividadSexualService.obtenerPorId(id);
         if (actividadOpt.isPresent()) {
             model.addAttribute("actividadSexual", actividadOpt.get());
-            return "actividadSexualForm"; // reutiliza el mismo formulario
+
+            // Agrega también los rangos de fecha aquí
+            LocalDate today = LocalDate.now();
+            LocalDate minDate = today.minusYears(1);
+            LocalDate maxDate = today;
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            model.addAttribute("minFecha", minDate.format(formatter));
+            model.addAttribute("maxFecha", maxDate.format(formatter));
+
+            return "actividadSexualForm";
         } else {
             return "redirect:/actividad-sexual/listado";
         }
