@@ -27,7 +27,7 @@ public class SegurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/login", "/registro", "/css/**", "/js/**").permitAll()
+            .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
             .requestMatchers("/administracionEsp").hasRole("ADMIN")  
             .anyRequest().authenticated()
         )
@@ -42,5 +42,6 @@ public class SegurityConfiguration {
         );
     return http.build();
 }
+    
 
 }
