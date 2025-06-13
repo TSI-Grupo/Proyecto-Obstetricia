@@ -8,7 +8,7 @@
 <body onload="actualizarRangosDuracion()">
 <div th:insert="fragments/header :: header">...</div>  
 <div class="container mt-5">
-    <h2>Registrar Ciclo Menstrual</h2>
+    <h2 class="text-center" style="margin-bottom: 20px;">Registrar Ciclo Menstrual</h2>
     <form th:action="@{/ciclos-menstruales/guardar}" th:object="${ciclo}" method="post" class="row g-3">
         <input type="hidden" th:field="*{paciente.id}">
         <input type="hidden" th:field="*{id}" />

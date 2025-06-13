@@ -8,7 +8,7 @@
 <body onload="ajustarMaxFecha()">
 <div th:insert="fragments/header :: header">...</div>    
 <div class="container mt-5">
-    <h2>Formulario de Control de Embarazo</h2>
+    <h2 class="text-center" style="margin-bottom: 20px;">Formulario de Control de Embarazo</h2>
 
     <form th:action="@{/embarazo/guardar}" th:object="${controlEmbarazo}" method="post" onsubmit="return validarFormulario()">
 
