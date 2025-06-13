@@ -26,5 +26,9 @@ public class PacienteServicio {
        public List<Paciente> listarPacientes() {
         return pacienteRepository.findAll();
     }
+    public void eliminarPaciente(Long idPaciente) {
+    pacienteRepository.deleteById(idPaciente);
+}
+
 
 }

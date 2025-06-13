@@ -2,10 +2,13 @@ package com.obstetricia.segurity.obstetricia.modelo;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Paciente {
@@ -22,6 +25,18 @@ public class Paciente {
     private String rut;
     private String telefono;
     private String correo;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CicloMenstrual> ciclosMenstruales;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActividadSexual> actividadesSexuales;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ControlEmbarazo> embarazos;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<IngestaAnticonceptiva> Ingesta;
 
     public Long getId() {
         return id;
