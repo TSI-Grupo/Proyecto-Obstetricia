@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Embarazos del Paciente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:insert="fragments/header :: header">...</div>   
+<div class="container mt-4">
+    <h2 class="text-center" style="margin-bottom: 20px;">Embarazos de <span th:text="${paciente.nombreCompleto}">Paciente</span></h2>
+
+    <table class="table table-striped table-hover mt-3">
+        <thead>
+            <tr>
+                <th>Último Día de Menstruación</th>
+                <th>Semanas</th>
+                <th>Trimestre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="embarazo : ${embarazos}">
+            <td th:text="${embarazo.ultimoDiaMenstruacion}">01/01/2024</td>
+            <td th:text="${embarazo.semanas}">10</td>
+            <td th:text="${embarazo.trimestre}">1</td>
+            <td>
+                <a th:href="@{'/embarazo/editar/' + ${embarazo.id}}" class="btn btn-warning btn-sm">Editar</a>
+                <a th:href="@{'/embarazo/eliminar/' + ${embarazo.id}}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('¿Estás seguro de eliminar este registro?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

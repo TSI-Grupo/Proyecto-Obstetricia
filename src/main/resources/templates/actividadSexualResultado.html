@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado Actividad Sexual</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:insert="fragments/header :: header">...</div>     
+<div class="container mt-5">
+    <div class="alert alert-success">
+        <h3>¡Registro guardado exitosamente!</h3>
+        <p th:if="${sugerencia}" th:text="${sugerencia}">Recuerda usar protección en tus relaciones.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Validar Paciente</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div th:insert="fragments/header :: header">...</div>
+    <div class="container mt-5" style="margin-top: 32px;">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Validar RUT del Paciente</h3>
+                </div>
+                <div class="panel-body">
+                    <form th:action="@{/actividad-sexual/validar-rut}" method="post">
+                        <div class="form-group">
+                            <label for="rut">Ingrese RUT:</label>
+                            <input type="text" id="rutPaciente" name="rutPaciente" class="form-control" placeholder="Ej: 12.345.678-9" required>
+
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Validar Paciente</button>
+                    </form>
+                </div>
+            </div>
+            <div th:if="${error}">
+                <div class="alert alert-danger">
+                    <span th:text="${error}">RUT no encontrado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

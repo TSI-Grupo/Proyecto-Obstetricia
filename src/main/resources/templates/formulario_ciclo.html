@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registrar Ciclo Menstrual</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body onload="actualizarRangosDuracion()">
+<div th:insert="fragments/header :: header">...</div>  
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 20px;">Registrar Ciclo Menstrual</h2>
+    <form th:action="@{/ciclos-menstruales/guardar}" th:object="${ciclo}" method="post" class="row g-3">
+        <input type="hidden" th:field="*{paciente.id}">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="col-md-6">
+            <label for="primerDiaPeriodo" class="form-label">Primer Día del Periodo</label>
+            <input type="date" class="form-control" th:field="*{primerDiaPeriodo}" th:attr="min=${minDate}, max=${maxDate}" onchange="actualizarRangosDuracion()" required />
+        </div>
+
+        <div class="col-md-6">
+            <label for="duracionCiclo" class="form-label">Duración del Ciclo (días)</label>
+            <input type="number" class="form-control" id="duracionCiclo" name="duracionCiclo" min="1" required
+                   th:value="*{duracionCiclo}">
+            <div th:if="${#fields.hasErrors('duracionCiclo')}" class="text-danger">
+                <p th:errors="*{duracionCiclo}"></p>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="flujo" class="form-label">Flujo</label>
+            <select class="form-select" id="flujo" name="flujo" required>
+                <option value="">Selecciona</option>
+                <option value="Ligero">Ligero</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Abundante">Abundante</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="mocoVaginal" class="form-label">Moco Vaginal</label>
+            <select class="form-select" id="mocoVaginal" name="mocoVaginal" required>
+                <option value="">Selecciona</option>
+                <option value="Escaso, espeso y blanquecino">Escaso, espeso y blanquecino</option>
+                <option value="Abundante, elástico y transparente">Abundante, elástico y transparente</option>
+            </select>
+        </div>
+        
+        <div class="col-md-6">
+            <label class="form-label">Síntomas</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Calambres" id="sintomaCalambres">
+                <label class="form-check-label" for="sintomaCalambres">Calambres</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Hinchazón" id="sintomaHinchazon">
+                <label class="form-check-label" for="sintomaHinchazon">Hinchazón</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Manchado" id="sintomaManchado">
+                <label class="form-check-label" for="sintomaManchado">Manchado</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Fatiga" id="sintomaFatiga">
+                <label class="form-check-label" for="sintomaFatiga">Fatiga</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Dolor de espalda" id="sintomaDolorEspalda">
+                <label class="form-check-label" for="sintomaDolorEspalda">Dolor de espalda</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Dolor de cabeza" id="sintomaDolorCabeza">
+                <label class="form-check-label" for="sintomaDolorCabeza">Dolor de cabeza</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Gases" id="sintomaGases">
+                <label class="form-check-label" for="sintomaGases">Gases</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Escalofríos" id="sintomaEscalofrios">
+                <label class="form-check-label" for="sintomaEscalofrios">Escalofríos</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Aumento de peso" id="sintomaAumentoPeso">
+                <label class="form-check-label" for="sintomaAumentoPeso">Aumento de peso</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Fiebre héctica" id="sintomaFiebreHectica">
+                <label class="form-check-label" for="sintomaFiebreHectica">Fiebre héctica</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Sensibilidad en el pecho" id="sintomaSensibilidadPecho">
+                <label class="form-check-label" for="sintomaSensibilidadPecho">Sensibilidad en el pecho</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Sangrado" id="sintomaSangrado">
+                <label class="form-check-label" for="sintomaSangrado">Sangrado</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Cólicos" id="sintomaColicos">
+                <label class="form-check-label" for="sintomaColicos">Cólicos</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Aumento de la libido" id="sintomaAumentoLibido">
+                <label class="form-check-label" for="sintomaAumentoLibido">Aumento de la libido</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Disminución de la libido" id="sintomaDisminucionLibido">
+                <label class="form-check-label" for="sintomaDisminucionLibido">Disminución de la libido</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Libido neutra" id="sintomaLibidoNeutra">
+                <label class="form-check-label" for="sintomaLibidoNeutra">Libido neutra</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sintomas" value="Otro" id="sintomaOtro">
+                <label class="form-check-label" for="sintomaOtro">Otro</label>
+            </div>
+            <div class="mt-2" id="otroSintomaField" style="display: none;">
+                <input type="text" class="form-control" id="otroSintomaInput" name="otroSintoma" placeholder="Especifica el síntoma">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Estado de Ánimo</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Feliz" id="estadoFeliz">
+                <label class="form-check-label" for="estadoFeliz">Feliz</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Normal" id="estadoNormal">
+                <label class="form-check-label" for="estadoNormal">Normal</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Triste" id="estadoTriste">
+                <label class="form-check-label" for="estadoTriste">Triste</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Entusiasmada" id="estadoEntusiasmada">
+                <label class="form-check-label" for="estadoEntusiasmada">Entusiasmada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Relajada" id="estadoRelajada">
+                <label class="form-check-label" for="estadoRelajada">Relajada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Ansiosa" id="estadoAnsiosa">
+                <label class="form-check-label" for="estadoAnsiosa">Ansiosa</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Indiferente" id="estadoIndiferente">
+                <label class="form-check-label" for="estadoIndiferente">Indiferente</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Cansada" id="estadoCansada">
+                <label class="form-check-label" for="estadoCansada">Cansada</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Extraña" id="estadoExtrana">
+                <label class="form-check-label" for="estadoExtrana">Extraña</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Irritable" id="estadoIrritable">
+                <label class="form-check-label" for="estadoIrritable">Irritable</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Deprimida" id="estadoDeprimida">
+                <label class="form-check-label" for="estadoDeprimida">Deprimida</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="estadoAnimo" value="Estresada" id="estadoEstresada">
+                <label class="form-check-label" for="estadoEstresada">Estresada</label>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </div>
+
+    </form>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxOtro = document.getElementById('sintomaOtro');
+            var inputField = document.getElementById('otroSintomaField');
+            var inputOtro = document.getElementById('otroSintomaInput');
+            var form = document.querySelector('form');
+            const fechaInput = document.getElementById('primerDiaPeriodo');
+            const duracionInput = document.getElementById('duracionCiclo');
+
+            checkboxOtro.addEventListener('change', function () {
+                if (this.checked) {
+                    inputField.style.display = 'block';
+                } else {
+                    inputField.style.display = 'none';
+                    inputOtro.value = '';
+                    this.value = 'Otro'; // Resetear valor por si acaso
+                }
+            });
+        
+            form.addEventListener('submit', function () {
+                if (checkboxOtro.checked && inputOtro.value.trim() !== '') {
+                    checkboxOtro.value = inputOtro.value.trim();
+                }
+            });
+        });
+
+        function actualizarRangosDuracion() {
+            const fechaInput = document.getElementById('primerDiaPeriodo');
+            const duracionInput = document.getElementById('duracionCiclo');
+
+            const fechaSeleccionada = new Date(fechaInput.value);
+            const hoy = new Date();
+
+            fechaSeleccionada.setHours(0, 0, 0, 0);
+            hoy.setHours(0, 0, 0, 0);
+
+            if (!isNaN(fechaSeleccionada)) {
+                const diasTranscurridos = Math.floor((hoy - fechaSeleccionada) / (1000 * 60 * 60 * 24));
+
+                if (fechaSeleccionada.getTime() === hoy.getTime()) {
+                    // Si el día es hoy: solo permitir 0
+                    duracionInput.min = 0;
+                    duracionInput.max = 0;
+                    duracionInput.value = 0;
+                } else if (fechaSeleccionada < hoy) {
+                    // Fechas pasadas: mínimo 1, máximo según días transcurridos
+                    duracionInput.min = 1;
+                    duracionInput.max = diasTranscurridos;
+                    duracionInput.value = '';
+                } else {
+            // Fechas futuras: limpiar todo
+                    duracionInput.min = '';
+                    duracionInput.max = '';
+                    duracionInput.value = '';
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

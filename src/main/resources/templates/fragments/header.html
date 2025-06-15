@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="utf-8">
+  <title>Inicio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="header" th:fragment="header">
+    <img th:src="@{/images/header-logo.svg}" alt="Logo de TuPortal" />
+
+    <nav class="header__nav">
+      <!-- Registrar -->
+      <div class="header__nav-registrar">
+        <div class="header_nav--title">Registrar</div>
+
+        <ul>
+          <li><a th:href="@{/pacientes/new}">Pacientes</a></li>
+          <li><a th:href="@{/ciclos-menstruales/validar-rut}">Ciclo Menstrual</a></li>
+          <li><a th:href="@{/actividad-sexual/validar-rut}">Actividad Íntima</a></li>
+          <li><a th:href="@{/embarazo/validar-rut}">Embarazo</a></li>
+          <li><a th:href="@{/anticonceptivos/validar-rut}">Ingesta Anticonceptivos</a></li>
+        </ul>
+      </div>
+
+      <!-- Listados de -->
+      <div class="header__nav-listados">
+        <div class="header_nav--title">Listados de <span class="caret"></span></div>
+        <ul>
+          <li><a th:href="@{/pacientes}">Pacientes</a></li>
+          <li><a th:href="@{/ciclos-menstruales/listado}">Ciclo Menstrual</a></li>
+          <li><a th:href="@{/actividad-sexual/listado}">Actividad Íntima</a></li>
+          <li><a th:href="@{/embarazo/embarazoListado}">Embarazo</a></li>
+          <li><a th:href="@{/anticonceptivos/listado}">Ingesta Anticonceptivos</a></li>
+        </ul>
+      </div>
+
+      <!-- Consultar historial de datos -->
+      <a class="header__nav-historial header_nav--title" th:href="@{/pacientes/historial}">Consultar historial de
+        datos</a>
+
+      <!-- Panel de administración -->
+      <div class="header__nav-admin header_nav--title" sec:authorize="hasRole('ADMIN')"> 
+        <a th:href="@{/administracionEsp}">PANEL DE ADMINISTRACIÓN</a>
+      </div>
+
+      <form class="header__nav-logout header_nav--title" th:action="@{/logout}" method="post">
+        <button class="button-logout" type="submit">
+          <span>Cerrar sesión</span>
+        </button>
+      </form>
+
+    </nav>
+  </header>
+
+</body>
+
+
+</html>

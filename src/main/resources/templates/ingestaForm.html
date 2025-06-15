@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Ingesta Anticonceptiva</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <style>
+        table td {
+            padding: 12px 15px;
+            vertical-align: top;
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+    </style>    
+</head>
+<body>
+<div th:insert="fragments/header :: header">...</div>       
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 20px;">Registrar Ingesta Anticonceptiva</h2>
+
+    <form th:action="@{/anticonceptivos/guardar}" method="post" class="border p-4 bg-light rounded shadow">
+        <input type="hidden" name="id" th:value="${ingesta.id}" />
+
+        <!-- RUT oculto o visible solo lectura -->
+        <div class="mb-3">
+            <label for="rutPaciente" class="form-label">RUT del Paciente:</label>
+            <input type="text" id="rutPaciente" name="rutPaciente" th:value="${ingesta.paciente.rut}" class="form-control" readonly>
+        </div>
+
+        <!-- Olvidó la pastilla -->
+        <div class="mb-3">
+            <label class="form-label">¿Olvidó la pastilla?</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="olvidada" value="true" th:checked="${ingesta.olvidada}" required>
+                <label class="form-check-label">Sí</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="olvidada" value="false" th:checked="${!ingesta.olvidada}">
+                <label class="form-check-label">No</label>
+            </div>
+        </div>
+
+        <!-- Selección de marca de pastilla anticonceptiva -->
+        <div class="mb-3">
+        <label for="marcaSelect" class="form-label">Marca de la Pastilla:</label>
+            <select class="form-select" id="marcaSelect" name="marca" required>
+            <option th:each="marca : ${marcas}" th:value="${marca}" th:text="${marca}" 
+                th:selected="${marca == ingesta.marca}">Marca</option>
+            <option value="Otro" th:selected="${ingesta.marca == 'Otro'}">Otro</option>
+            </select>
+        </div>
+
+        <!-- Campo de texto para ingresar otra marca -->
+        <div class="mb-3" id="otraMarcaDiv" style="display: none;">
+        <label for="otraMarcaInput" class="form-label">Especifica la marca:</label>
+        <input type="text" class="form-control" id="otraMarcaInput" name="otraMarca" 
+            th:value="${ingesta.marca != null and !#lists.contains(marcas, ingesta.marca) ? ingesta.marca : ''}" 
+            placeholder="Ingresa otra marca...">
+        </div>
+
+        <!-- Fecha de ingesta -->
+        <div class="mb-3">
+            <label for="fecha" class="form-label">Fecha de Ingesta:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha" th:value="${#temporals.format(ingesta.fecha, 'yyyy-MM-dd')}" th:attr="min=${minDate}, max=${maxDate}" required>
+        </div>
+        <!-- Efectos adversos -->
+        <div class="mb-3">
+            <label for="efectosAdversos" class="form-label">Efectos Adversos:</label>
+            <textarea id="efectosAdversos" name="efectosAdversos" class="form-control" rows="3"
+                      placeholder="Describe cualquier efecto secundario... (opcional) "
+                      th:text="${ingesta.efectosAdversos}"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Ingesta</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const radios = document.querySelectorAll('input[name="olvidada"]');
+        const fechaInput = document.getElementById('fecha');
+        const marcaSelect = document.getElementById('marcaSelect');
+        const otraMarcaInput = document.getElementById('otraMarcaInput');
+        const marcaFormGroup = document.getElementById('marcaFormGroup'); // opcional para ocultar todo el bloque
+
+        function toggleCamposPorOlvido() {
+            const olvidada = document.querySelector('input[name="olvidada"]:checked').value === 'true';
+
+            // Fecha
+            fechaInput.disabled = olvidada;
+            if (olvidada) fechaInput.value = '';
+
+            // Marca
+            marcaSelect.disabled = olvidada;
+            otraMarcaInput.disabled = olvidada;
+            if (olvidada) {
+                marcaSelect.value = '';
+                otraMarcaInput.value = '';
+            }
+
+            // Ocultar visualmente el grupo completo de marca (opcional)
+            // marcaFormGroup.style.display = olvidada ? 'none' : '';
+        }
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', toggleCamposPorOlvido);
+        });
+
+        toggleCamposPorOlvido(); // Ejecutar al cargar
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const marcaSelect = document.getElementById("marcaSelect");
+        const otraMarcaDiv = document.getElementById("otraMarcaDiv");
+        const otraMarcaInput = document.getElementById("otraMarcaInput");
+
+        function toggleOtraMarca() {
+            if (marcaSelect.value === "Otro") {
+                otraMarcaDiv.style.display = "block";
+                otraMarcaInput.required = true;
+            } else {
+                otraMarcaDiv.style.display = "none";
+                otraMarcaInput.required = false;
+                otraMarcaInput.value = '';
+            }
+        }
+
+        marcaSelect.addEventListener("change", toggleOtraMarca);
+
+        // Ejecutar al cargar (por si la marca no está en la lista y fue precargada)
+        toggleOtraMarca();
+    });
+
+</script>
+
+</body>
+</html>
