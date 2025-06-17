@@ -14,6 +14,9 @@ import com.obstetricia.segurity.obstetricia.modelo.ControlEmbarazo;
 import com.obstetricia.segurity.obstetricia.repositorio.CicloMenstrualRepositorio;
 import com.obstetricia.segurity.obstetricia.repositorio.ControlEmbarazoRepositorio;
 
+import com.obstetricia.segurity.obstetricia.modelo.Paciente;
+import com.obstetricia.segurity.obstetricia.repositorio.PacienteRepositorio;
+
 @Service
 public class PerfilDinamicoServicio {
 
@@ -23,38 +26,58 @@ public class PerfilDinamicoServicio {
     @Autowired
     private ControlEmbarazoRepositorio embarazoRepo;
 
-public EstadoPerfil determinarPerfil(Long pacienteId) {
-    boolean esMenopausica = false;
+    @Autowired
+    private PacienteRepositorio pacienteRepo;
 
-    Optional<CicloMenstrual> ultimoCicloOpt = cicloRepo.findTopByPacienteIdOrderByPrimerDiaPeriodoDesc(pacienteId);
+    public EstadoPerfil determinarPerfil(Long pacienteId) {
+        Optional<Paciente> pacienteOpt = pacienteRepo.findById(pacienteId);
+        if (pacienteOpt.isEmpty()) {
+            return EstadoPerfil.ESTADO_NO_ASIGNADO;
+        }
 
-    if (ultimoCicloOpt.isEmpty()) {
-        esMenopausica = true; // Nunca ha tenido un ciclo registrado
-    } else {
-        LocalDate fechaUltimoCiclo = ultimoCicloOpt.get().getPrimerDiaPeriodo();
-        long diasSinCiclo = ChronoUnit.DAYS.between(fechaUltimoCiclo, LocalDate.now());
-        esMenopausica = diasSinCiclo >= 365; // 12 meses sin menstruación
+        Paciente paciente = pacienteOpt.get();
+        int edad = calcularEdad(paciente.getFechaNacimiento());
+
+        Optional<CicloMenstrual> ultimoCicloOpt = cicloRepo.findTopByPacienteIdOrderByPrimerDiaPeriodoDesc(pacienteId);
+        List<ControlEmbarazo> embarazos = embarazoRepo.findTop1ByPacienteIdOrderByFechaFinEmbarazoDesc(pacienteId);
+
+        boolean tieneEmbarazo = !embarazos.isEmpty();
+        boolean tieneCiclo = ultimoCicloOpt.isPresent();
+
+        boolean esMenopausica = false;
+
+        if (!tieneCiclo && edad > 60) {
+            esMenopausica = true;
+        } else if (tieneCiclo) {
+            LocalDate fechaUltimoCiclo = ultimoCicloOpt.get().getPrimerDiaPeriodo();
+            long diasSinCiclo = ChronoUnit.DAYS.between(fechaUltimoCiclo, LocalDate.now());
+            esMenopausica = (diasSinCiclo >= 365) && edad > 60;
+        }
+
+        if (!tieneCiclo && !tieneEmbarazo) {
+            return EstadoPerfil.ESTADO_NO_ASIGNADO;
+        }
+
+        if (esMenopausica && tieneEmbarazo) {
+            return EstadoPerfil.MENOPÁUSICA_EMBARAZADA;
+        }
+
+        if (!esMenopausica && tieneEmbarazo) {
+            return EstadoPerfil.MENSTRUANTE_EMBARAZADA;
+        }
+
+        if (!esMenopausica && !tieneEmbarazo) {
+            return EstadoPerfil.MENSTRUANTE;
+        }
+
+        if (esMenopausica && !tieneEmbarazo) {
+            return EstadoPerfil.MENOPÁUSICA;
+        }
+
+        return EstadoPerfil.ESTADO_NO_ASIGNADO; // Fallback seguro
     }
 
-    List<ControlEmbarazo> embarazos = embarazoRepo.findTop1ByPacienteIdOrderByFechaFinEmbarazoDesc(pacienteId);
-    boolean tieneEmbarazo = !embarazos.isEmpty();
-
-    if (esMenopausica && tieneEmbarazo) {
-        return EstadoPerfil.MENOPÁUSICA_EMBARAZADA;
+    private int calcularEdad(LocalDate fechaNacimiento) {
+        return (int) ChronoUnit.YEARS.between(fechaNacimiento, LocalDate.now());
     }
-
-    if (!esMenopausica && tieneEmbarazo) {
-        return EstadoPerfil.MENSTRUANTE_EMBARAZADA;
-    }
-
-    if (!esMenopausica && !tieneEmbarazo) {
-        return EstadoPerfil.MENSTRUANTE;
-    }
-
-    if (esMenopausica && !tieneEmbarazo) {
-        return EstadoPerfil.MENOPÁUSICA;
-    }
-
-    return EstadoPerfil.MENOPÁUSICA; // fallback por seguridad
-}
 }
